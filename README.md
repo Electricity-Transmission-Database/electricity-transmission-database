@@ -26,3 +26,19 @@ is used.
     - **population**: Population of city representing center point of BA. Empty if no city identified
     - **x**: Longitude of the centerpoint 
     - **y**: Latitude of the centerpoint
+
+### `usa/ba-transmission.ipynb`
+
+Estimates transmission capacity between each BA based on historical maximum flow rates.
+
+**Inputs** 
+- `usa/ba-mapper.csv` - A user created mapper on how to name each BA in the USA
+- `usa/flows/xxx.csv` - Automatically downloaded datafiles (represented by `xxx`) giving historical transmission between BAs. The files contain hourly flow values in 6 month intervals. See the notebook for the datasource. 
+
+**Outputs**
+- `usa/usa-transmission-capacity.csv` - A file with the folloing columns: 
+    - **TECHNOLOGY**: Unique name of transmission technology 
+    - **From**: BA of flow from 
+    - **To**: BA of flow to 
+    - **Cap (MW) +**: Capacity in direction of From->To (Positive Number)
+    - **Cap (MW) -**: Capacity in direction of From->To (Negative Number)
