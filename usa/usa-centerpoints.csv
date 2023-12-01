@@ -1,0 +1,57 @@
+code,country,city,population,x,y
+USANY,United States,New York,18972871.0,-73.9249,40.6943
+USALD,United States,Los Angeles,12121244.0,-118.4068,34.1141
+USAPJ,United States,Chicago,8595181.0,-87.6866,41.8375
+USAHS,United States,Miami,5711946.0,-80.3,25.784
+USAER,United States,Dallas,5668165.0,-96.7667,32.7935
+USASO,United States,Atlanta,5046555.0,-84.422,33.7628
+USAIS,United States,Boston,4208580.0,-71.0852,42.3188
+USASR,United States,Phoenix,4047095.0,-112.0892,33.5722
+USAMI,United States,Detroit,3522856.0,-83.1024,42.3834
+USASL,United States,Seattle,3438221.0,-122.3244,47.6211
+USACI,United States,San Francisco,3290197.0,-122.4449,37.7558
+USATC,United States,Tampa,2683956.0,-82.4447,27.9945
+USAPO,United States,Denver,2650725.0,-104.8758,39.762
+USANE,United States,Las Vegas,2150373.0,-115.2654,36.2333
+USAPG,United States,Portland,2036875.0,-122.65,45.5371
+USAFM,United States,Orlando,1927699.0,-81.337,28.4773
+USABA,United States,Sacramento,1924167.0,-121.4685,38.5677
+USASW,United States,Kansas City,1644497.0,-94.5541,39.1238
+USADU,United States,Charlotte,1516107.0,-80.8303,35.2083
+USAJE,United States,Jacksonville,1220191.0,-81.6749,30.3322
+USAPE,United States,Salt Lake City,1135344.0,-111.9311,40.7776
+USATV,United States,Nashville,1098486.0,-86.7842,36.1715
+USALG,United States,Louisville,1022630.0,-85.6485,38.1663
+USATP,United States,Tucson,875284.0,-110.8787,32.1541
+USAEP,United States,El Paso,794344.0,-106.43,31.8476
+USAPN,United States,Albuquerque,765693.0,-106.6465,35.1054
+USAFL,United States,Sarasota,727388.0,-82.5432,27.3387
+USAAI,United States,Tulsa,715983.0,-95.9042,36.1283
+USASG,United States,Charleston,685517.0,-79.9687,32.8168
+USAWM,United States,Colorado Springs,628808.0,-104.7605,38.8674
+USAPW,United States,Reno,463328.0,-119.8483,39.5497
+USAAA,United States,Spokane,440270.0,-117.433,47.6671
+USAIP,United States,Boise,422665.0,-116.2308,43.6005
+USATI,United States,Modesto,382994.0,-121.0028,37.6375
+USAII,United States,Indio,361831.0,-116.2346,33.7346
+USACE,United States,Fayetteville,328827.0,-94.1661,36.0714
+USACW,United States,Asheville,316694.0,-82.5537,35.5707
+USASC,United States,Myrtle Beach,281180.0,-78.8844,33.7094
+USAFC,United States,St. Petersburg,258245.0,-82.6652,27.7931
+USATA,United States,Tallahassee,257648.0,-84.2527,30.4551
+USAPI,United States,Bremerton,219538.0,-122.7121,47.5436
+USATR,United States,Tacoma,217332.0,-122.4531,47.2431
+USAGV,United States,Gainesville,213287.0,-82.3459,29.6804
+USABP,United States,Vancouver,188331.0,-122.5967,45.6366
+USASM,United States,Spring Hill,179668.0,-82.53,28.4798
+USAAZ,United States,Yuma,135933.0,-114.5491,32.5995
+USAWA,United States,Billings,124973.0,-108.5526,45.7891
+USANW,United States,Missoula,92863.0,-114.0214,46.8751
+USACH,United States,Wenatchee,71119.0,-120.3295,47.436
+USAWC,United States,Sierra Vista,44944.0,-110.3153,31.563
+USASP,United States,Paragould,29327.0,-90.5149,36.0555
+USAGC,United States,Moses Lake,24764.0,-119.2759,47.1279
+USAGD,United States,Hermiston,19141.0,-119.2854,45.8326
+USASA,United States,Bainbridge,14210.0,-84.5732,30.9052
+USAYA,United States,,,-80.0986,35.5191
+USADO,United States,,,-119.6111,48.2411
