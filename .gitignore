@@ -1,6 +1,8 @@
 # project 
 usa/*.geojson
 usa/*.csv
+usa/*.zip
+usa/worldcities
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
