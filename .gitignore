@@ -4,6 +4,8 @@ usa/*.csv
 usa/*.zip
 usa/worldcities
 
+src_devel/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
