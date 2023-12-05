@@ -1,14 +1,17 @@
-# Electricity Transmission Database 
+# Global Tranmission Database
 Scripts to process and visualize data for the global electricity transmission database 
 
-TODO: Include Zenodo link here 
+## Description
+...
 
-## Scripts
+## Getting started
+coming soon...
 
-Below is a summary of each script in this repository 
+## What's here
 
-### `usa/ba-mapping.ipynb`
+### Scripts
 
+#### `usa/ba-mapping.ipynb`
 Creates centerpoints for each USA balancing authority (BA) based on the largest 
 city in each BA. If no large city is found in the BA, then the geometric centerpoint 
 is used. 
@@ -27,7 +30,7 @@ is used.
     - **x**: Longitude of the centerpoint 
     - **y**: Latitude of the centerpoint
 
-### `usa/ba-transmission.ipynb`
+#### `usa/ba-transmission.ipynb`
 
 Estimates transmission capacity between each BA based on historical maximum flow rates.
 
@@ -42,3 +45,10 @@ Estimates transmission capacity between each BA based on historical maximum flow
     - **To**: BA of flow to 
     - **Cap (MW) +**: Capacity in direction of From->To (Positive Number)
     - **Cap (MW) -**: Capacity in direction of From->To (Negative Number)
+
+
+## TODO
+- [ ] Add environment file
+- [ ] Make figures in notebooks
+    - [ ] Included/excluded regions
+- [ ] Include Zenodo link here
