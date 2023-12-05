@@ -4,12 +4,30 @@ Scripts to process and visualize data for the global electricity transmission da
 ## Description
 ...
 
-## Getting started
-coming soon...
-
 ## What's here
+...
 
-### Scripts
+## Getting started
+
+- Clone this repository:
+
+`git clone https://github.com/Electricity-Transmission-Database/electricity-transmission-database.git`
+
+- Create a conda environment:
+
+`conda create -n global_transmission_database python=3.11`
+
+- Activate the environment:
+
+`conda activate global_transmission_database`
+
+- Run the `setup.py` from within the directory:
+
+`pip install .`
+
+That's it! You are now ready to make plots. See example notebooks [here]().
+
+<!-- ### Scripts
 
 #### `usa/ba-mapping.ipynb`
 Creates centerpoints for each USA balancing authority (BA) based on the largest 
@@ -44,7 +62,7 @@ Estimates transmission capacity between each BA based on historical maximum flow
     - **From**: BA of flow from 
     - **To**: BA of flow to 
     - **Cap (MW) +**: Capacity in direction of From->To (Positive Number)
-    - **Cap (MW) -**: Capacity in direction of From->To (Negative Number)
+    - **Cap (MW) -**: Capacity in direction of From->To (Negative Number) -->
 
 
 ## TODO
