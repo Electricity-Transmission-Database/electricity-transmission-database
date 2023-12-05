@@ -66,7 +66,8 @@ Estimates transmission capacity between each BA based on historical maximum flow
 
 
 ## TODO
-- [ ] Add environment file
+- [x] Add environment file
+- [ ] Setup data loader
 - [ ] Make figures in notebooks
     - [ ] Included/excluded regions
 - [ ] Include Zenodo link here
