@@ -5,6 +5,7 @@ usa/*.zip
 usa/worldcities
 
 src_devel/*
+notebooks/tests.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
