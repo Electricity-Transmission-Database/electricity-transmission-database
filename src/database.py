@@ -37,6 +37,10 @@ class GlobalTransmissionDatabase:
         )
 
         # read database
+        self.DATABASE = pd.read_excel(
+            '../data/global_transmission_data.xlsx',
+            skiprows=1,
+        )
 
         ##################
         # PROCESS
@@ -80,6 +84,94 @@ class GlobalTransmissionDatabase:
         # reorder
         self.POPULATION_CENTRES = self.POPULATION_CENTRES[['node','node_verbose','country','region','subregion','population','geometry']]
 
+        # --
+        # DATABASE
 
-    def get_something():
-        print('todo')
+        # fix node names
+        for c in ['From','To']:
+
+            self.DATABASE.loc[
+                self.DATABASE[c].str.len() > 3, c
+            ] = self.DATABASE.loc[
+                    self.DATABASE[c].str.len() > 3, c
+                    ].str[0:3] + '-' + self.DATABASE.loc[
+                                self.DATABASE[c].str.len() > 3, c
+                                ].str[3:6]
+
+            self.DATABASE.loc[
+                self.DATABASE[c].str.len() == 3, c
+            ] = self.DATABASE.loc[
+                    self.DATABASE[c].str.len() == 3, c
+                    ] + '-' + 'XX'
+        
+        # change column names
+        self.DATABASE['Existing Capacity + (MW)'] = self.DATABASE['CAP (MW) +']
+        self.DATABASE['Existing Capacity - (MW)'] = self.DATABASE['Cap (MW) -']
+        self.DATABASE['Planned Capacity + (MW)']  = self.DATABASE['Cap (MW) +']
+        self.DATABASE['Planned Capacity - (MW)']  = self.DATABASE['Cap (MW) -.1']
+        
+        # drop some columns we don't need
+        self.DATABASE = self.DATABASE.drop(
+            [
+            'Comments', 
+            'Name', 
+            'Name.1', 
+            'Completed?', 
+            'Reviewed?', 
+            'Technology',
+            #'From', 
+            #'To', 
+            'CAP (MW) +', 
+            'Cap (MW) -', 
+            'Voltage (kV)',
+            'Distance (KM)', 
+            'Cap (MW) +', 
+            'Cap (MW) -.1', 
+            'Voltage (kV) +',
+            'Distance (KM).1', 
+            #'Year Planned', 
+            #'Source Existing (2023)',
+            'Source2 Existing (2023)', 
+            #'Source Planned', 
+            'Source2 Planned',
+            #'Assumptions/Applied methods', 
+            #'Other Notes', 
+            'Unnamed: 23'
+            ],
+            axis = 1,
+        )
+
+        # reorder columns
+        self.DATABASE = self.DATABASE[[
+            'From',
+            'To',
+            'Existing Capacity + (MW)',
+            'Existing Capacity - (MW)',
+            'Planned Capacity + (MW)',
+            'Planned Capacity - (MW)',
+            'Year Planned',
+            'Assumptions/Applied methods',
+            'Other Notes',
+            'Source Existing (2023)',
+            'Source Planned',
+        ]]
+
+        # make column names lower case
+        self.DATABASE.columns = [i.lower() for i in self.DATABASE.columns]
+
+
+    def get_interregional_capacity(self,by='subregion'):
+        '''Get total capacities (existing and planned) between regions
+        '''
+        # copy database
+        df = self.DATABASE.copy()
+        # map region onto nodes
+        df['from'] = df['from'].map( self.CENTRE_POINTS.set_index('node')[by].to_dict() )
+        df['to'] = df['to'].map( self.CENTRE_POINTS.set_index('node')[by].to_dict() )
+        # return sums between different regions
+        df = df[df['from'] != df['to']].groupby(by=['from','to']).sum(numeric_only=True).drop('year planned',axis=1)
+        # get max of +/- capacity
+        for f in ['existing','planned']:
+            df[f] = df.filter(regex=f).abs().max(axis=1)
+        # return resulting df
+        return df[['existing','planned']]
