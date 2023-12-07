@@ -1,6 +1,6 @@
 '''
 
-    data_loader.py
+    database.py
 
     Load Global Transmission Database
 
@@ -20,7 +20,7 @@ class GlobalTransmissionDatabase:
     def __init__(
         self,
     ):
-        
+
         # read nodes
         self._nodes = pd.read_csv(
             '../data/csv/nodes.csv'
@@ -32,9 +32,11 @@ class GlobalTransmissionDatabase:
         )
 
         # read exclusion zones
-        self.included_regions = gpd.read_file(
+        self.INCLUDED_REGIONS = gpd.read_file(
             '../data/shapefiles/excluded_regions/excluded_regions.shp'
         )
+
+        # read database
 
         ##################
         # PROCESS
@@ -78,4 +80,6 @@ class GlobalTransmissionDatabase:
         # reorder
         self.POPULATION_CENTRES = self.POPULATION_CENTRES[['node','node_verbose','country','region','subregion','population','geometry']]
 
-        
+
+    def get_something():
+        print('todo')
