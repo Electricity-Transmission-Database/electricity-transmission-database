@@ -6,10 +6,12 @@
 
 '''
 
-
+import math
 import networkx as nx
 import plotly.express as px
 import matplotlib.pyplot as plt
+
+from matplotlib.lines import Line2D
 
 from .database import GlobalTransmissionDatabase
 
@@ -35,7 +37,11 @@ class DatabasePlots:
         pass
 
 
-    def excluded_regions(
+    def map_transmission_lines():
+        pass
+
+
+    def map_excluded_regions(
             self,
             grid=False,
     ):
@@ -86,7 +92,13 @@ class DatabasePlots:
 
     def network_topology(
             self,
-            by='subregion'
+            by='subregion',
+            jitter=1,
+            colours = {'planned' : 'lightblue', 'existing' : 'orange'},
+            font_size=5,
+            node_size=700,
+            figsize=(8,8),
+            legend_scale=1,
     ):
         '''Network topology
         '''
@@ -115,7 +127,7 @@ class DatabasePlots:
         )
 
         # add positions
-        pos = nx.spring_layout(G, seed=7)
+        pos = nx.spring_layout(G, seed=7, k=jitter/math.sqrt(G.order()))
 
         # try:
         #     for n in G.nodes(): 
@@ -139,12 +151,14 @@ class DatabasePlots:
 
         nx.set_node_attributes(G, pos, 'pos')
 
+        # init figure
+        fig = plt.figure(figsize=figsize) 
 
         # nodes
         nx.draw_networkx_nodes(
             G, 
             pos, 
-            node_size=700,
+            node_size=node_size,
             node_color='teal',
             alpha=1,
         )
@@ -156,7 +170,7 @@ class DatabasePlots:
             G, 
             pos, 
             width=edgewidth,
-            edge_color='lightblue',
+            edge_color=colours['planned'],
             alpha=1,
         )
 
@@ -167,7 +181,7 @@ class DatabasePlots:
             G, 
             pos, 
             width=edgewidth,
-            edge_color='orange',
+            edge_color=colours['existing'],
             alpha=1,
         )
 
@@ -178,7 +192,16 @@ class DatabasePlots:
             pos,
             labels=dict(zip(nodelist,nodelist)),
             font_color='black',
-            font_size=5,
+            font_size=font_size,
         )
 
+        # legend
+        legend_elements = [
+            Line2D([0], [0], marker='o', color='w', label=by.title(),markerfacecolor='teal', markersize=5),
+            Line2D([0], [0], color=colours['existing'], lw=2, label='Existing capacity (MW)'),   
+            Line2D([0], [0], color=colours['planned'], lw=2, label='Planned capacity (MW)'),     
+        ]
+        plt.legend(handles=legend_elements, loc='upper right', prop={'size': 8*legend_scale}, frameon=False)
+
+        # frame
         plt.box(False)
