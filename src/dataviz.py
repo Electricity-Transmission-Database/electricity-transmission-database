@@ -7,9 +7,12 @@
 '''
 
 import math
+import numpy as np
+import pandas as pd
 import networkx as nx
 import plotly.express as px
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 from matplotlib.lines import Line2D
 
@@ -37,13 +40,152 @@ class DatabasePlots:
         pass
 
 
-    def map_transmission_lines():
-        pass
+    def map_transmission_lines(
+            self,
+            bins = [0,1,5,10,25],
+            labels = ['0-1','1-5','5-10','10-25'],
+            **kwargs,
+    ):
+        '''Plot FEO-Global nodes and edges
+        '''
+
+        # load reference data
+        nodes = self.df.CENTRE_POINTS.copy()
+        links = self.df.DATABASE.copy()
+
+        # # filter out nodes that are not in lines data
+        # nodes = nodes.loc[
+        #     (nodes.Node.isin(links['from'].tolist())) | \
+        #     (nodes.Node.isin(links['to'].tolist()))
+        # ]
+
+        # adjust caps
+        links['existing capacity + (mw)'] = links['existing capacity + (mw)'].fillna(0).divide(1e3)
+
+        # map lat,lon to links
+        links['start_lat'] = links['from'].map( nodes.set_index('node').geometry.y.to_dict() )
+        links['start_lon'] = links['from'].map( nodes.set_index('node').geometry.x.to_dict() )
+        links['end_lat'] = links['to'].map( nodes.set_index('node').geometry.y.to_dict() )
+        links['end_lon'] = links['to'].map( nodes.set_index('node').geometry.x.to_dict() )
+
+        # bin capacities
+        links['Capacity_Bin'] = pd.cut(
+            links['existing capacity + (mw)'], 
+            bins=bins, 
+            labels=labels
+        )
+
+        links.Capacity_Bin = links.Capacity_Bin.cat.add_categories(['0'])
+        links.Capacity_Bin = links.Capacity_Bin.fillna('0')
+
+        # init fig
+        fig = go.Figure()
+
+        # loop through link categories
+        link_widths = {}
+        min_width = kwargs.get('min_width',0.5)
+        for i in labels:
+            link_widths[i] = min_width
+            min_width += 1
+        link_widths['0'] = 0.5
+
+        for i in links.Capacity_Bin.unique():
+            # index dataframe
+            idx_links = links.loc[links.Capacity_Bin == i]
+
+            # zip coords
+            lons = []
+            lats = []
+            lons = np.empty(3 * len(idx_links))
+            lons[::3] = idx_links['start_lon']
+            lons[1::3] = idx_links['end_lon']
+            lons[2::3] = None
+            lats = np.empty(3 * len(idx_links))
+            lats[::3] = idx_links['start_lat']
+            lats[1::3] = idx_links['end_lat']
+            lats[2::3] = None
+
+            # set names
+            name = i + ' GW'
+            width = link_widths[i]
+            if i == '0':
+                color = 'lightgray'
+            else:
+                color = kwargs.get('link_color','red')
+
+            fig.add_trace(
+                go.Scattergeo(
+                    name=name,
+                    lon = lons,
+                    lat = lats,
+                    mode = 'lines',
+                    line = dict(width=width,color=color),
+                    opacity = kwargs.get('link_opacity',0.8),
+                )
+            )
+
+        fig.add_trace(
+            go.Scattergeo(
+                name='nodes',
+                lon = nodes.geometry.x,
+                lat = nodes.geometry.y,
+                hoverinfo = 'text',
+                text = nodes['node'] + '<br>' + nodes['country'],
+                mode = 'markers',
+                marker = dict(
+                    opacity = kwargs.get('node_opacity',0.8),
+                    size = kwargs.get('node_size',7),
+                    color = kwargs.get('node_color','sandybrown'),
+                    line = dict(
+                        width = 0,
+                        color = kwargs.get('node_line_color','DarkSlateGrey'),
+                        )
+                    )
+            )
+        )
+
+        fig.update_layout(
+            template='ggplot2',
+            geo = dict(
+                showland = True,
+                landcolor = kwargs.get('landcolor','black'),
+                # subunitcolor = "rgb(255, 255, 255)",
+                # countrycolor = "rgb(255, 255, 255)",
+                showlakes = False,
+                lakecolor = "rgb(255, 255, 255)",
+                showsubunits = False,
+                showcountries = False,
+                showocean = True,
+                oceancolor = kwargs.get('oceancolor','dimgray'),
+                resolution = 110,
+                lonaxis = dict(
+                    showgrid = False,
+                    gridwidth = 0.5,
+                    dtick = 5
+                ),
+                lataxis = dict (
+                    showgrid = False,
+                    gridwidth = 0.5,
+                    dtick = 5
+                )
+                ),
+            width=1000,
+            height=500,
+            margin={"r":50,"t":50,"l":50,"b":50},
+            #paper_bgcolor="White",
+            showlegend=True,
+            legend_title=kwargs.get('legend_title','Key:'),
+        )
+
+        #plotly_defaults(fig)
+
+        return fig, nodes, links
 
 
     def map_excluded_regions(
             self,
             grid=False,
+            colours={'Included' : 'navy', 'Excluded' : 'red'}
     ):
         '''Show regions included/excluded in the model
         '''
@@ -59,10 +201,7 @@ class DatabasePlots:
             geojson=df.geometry,
             locations=df.index,
             color="EXCLUDED",
-            color_discrete_map={
-                'Included':'navy', 
-                'Excluded':'red'
-            },
+            color_discrete_map=colours,
         )
 
         # update traces
