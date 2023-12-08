@@ -44,6 +44,15 @@ class DatabasePlots:
             self,
             bins = [0,1,5,10,25],
             labels = ['0-1','1-5','5-10','10-25'],
+            showgrid=True,
+            colours = {
+                'node' : 'lightcoral',
+                'line_existing' : 'lightcoral',
+                'line_planned' : 'navy',
+                'landcolor' : 'whitesmoke',
+                'oceancolor' : 'white',
+            },
+            show_zero=False,
             **kwargs,
     ):
         '''Plot FEO-Global nodes and edges
@@ -89,7 +98,11 @@ class DatabasePlots:
             min_width += 1
         link_widths['0'] = 0.5
 
-        for i in links.Capacity_Bin.unique():
+        # remove zero
+        if not show_zero:
+            links = links[links.Capacity_Bin != '0']
+
+        for i in labels:
             # index dataframe
             idx_links = links.loc[links.Capacity_Bin == i]
 
@@ -109,9 +122,9 @@ class DatabasePlots:
             name = i + ' GW'
             width = link_widths[i]
             if i == '0':
-                color = 'lightgray'
+                color = None
             else:
-                color = kwargs.get('link_color','red')
+                color = colours['line_existing']
 
             fig.add_trace(
                 go.Scattergeo(
@@ -135,7 +148,7 @@ class DatabasePlots:
                 marker = dict(
                     opacity = kwargs.get('node_opacity',0.8),
                     size = kwargs.get('node_size',7),
-                    color = kwargs.get('node_color','sandybrown'),
+                    color = colours['node'],
                     line = dict(
                         width = 0,
                         color = kwargs.get('node_line_color','DarkSlateGrey'),
@@ -148,7 +161,8 @@ class DatabasePlots:
             template='ggplot2',
             geo = dict(
                 showland = True,
-                landcolor = kwargs.get('landcolor','black'),
+                landcolor = colours['landcolor'],
+                projection_type=self.default_projection_type,
                 # subunitcolor = "rgb(255, 255, 255)",
                 # countrycolor = "rgb(255, 255, 255)",
                 showlakes = False,
@@ -156,17 +170,17 @@ class DatabasePlots:
                 showsubunits = False,
                 showcountries = False,
                 showocean = True,
-                oceancolor = kwargs.get('oceancolor','dimgray'),
+                oceancolor = colours['oceancolor'],
                 resolution = 110,
                 lonaxis = dict(
-                    showgrid = False,
+                    showgrid = showgrid,
                     gridwidth = 0.5,
-                    dtick = 5
+                    dtick = 15
                 ),
                 lataxis = dict (
-                    showgrid = False,
+                    showgrid = showgrid,
                     gridwidth = 0.5,
-                    dtick = 5
+                    dtick = 15
                 )
                 ),
             width=1000,
@@ -184,7 +198,7 @@ class DatabasePlots:
 
     def map_excluded_regions(
             self,
-            grid=False,
+            showgrid=False,
             colours={'Included' : 'navy', 'Excluded' : 'red'}
     ):
         '''Show regions included/excluded in the model
@@ -214,8 +228,8 @@ class DatabasePlots:
         fig.update_geos(
             visible=False,
             projection_type=self.default_projection_type,
-            lataxis_showgrid=grid, 
-            lonaxis_showgrid=grid,
+            lataxis_showgrid=showgrid, 
+            lonaxis_showgrid=showgrid,
         )
 
         # set layout
