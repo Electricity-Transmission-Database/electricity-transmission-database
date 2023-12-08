@@ -67,10 +67,10 @@ Estimates transmission capacity between each BA based on historical maximum flow
 
 ## TODO
 - [x] Add environment file
-- [ ] Setup data loader
+- [x] Setup data loader
 - [ ] Make figures in notebooks
     - [x] Included/excluded regions
     - [ ] Existing and planned transmission lines
-    - [ ] 
-    - [ ]
+    - [x] Network topology showing interregional connections
+    - [ ] Statistical features of lines
 - [ ] Include Zenodo link here
