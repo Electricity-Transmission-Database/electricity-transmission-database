@@ -1,5 +1,5 @@
 # Global Tranmission Database
-Scripts to process and visualize data for the global electricity transmission database 
+Scripts to process and visualize data for the [Global Transmission Database](https://zenodo.org/doi/10.5281/zenodo.10063445).
 
 ## Description
 ...
@@ -26,6 +26,29 @@ Scripts to process and visualize data for the global electricity transmission da
 `pip install .`
 
 That's it! You are now ready to make plots. See example notebooks [here]().
+
+## Citation
+
+```
+@dataset{brinkerink_2023_10063446,
+  author       = {Brinkerink, Maarten and
+                  Sherman, Gordon and
+                  Osei-Owusu, Simone and
+                  Mohanty, Reema and
+                  Majid, Aman and
+                  Barnes, Trevor and
+                  Niet, Taco and
+                  Shivakumar, Abhishek and
+                  Mayfield, Erin},
+  title        = {Global Transmission Database},
+  month        = nov,
+  year         = 2023,
+  publisher    = {Zenodo},
+  version      = {0.1},
+  doi          = {10.5281/zenodo.10063446},
+  url          = {https://doi.org/10.5281/zenodo.10063446}
+}
+```
 
 <!-- ### Scripts
 
@@ -84,7 +107,7 @@ Estimates transmission capacity between each BA based on historical maximum flow
         9. [ ] Southeast Asia
         10. [ ] Oceania
     - [ ] Statistical features of lines
-- [ ] Include Zenodo link here
+- [x] Include Zenodo link here
 
 ## ISSUES
 - [ ] `map_excluded_regions` plot is very large due to highly resolved spatial boundaries. We can use default `plotly` presets instead. 
