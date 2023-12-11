@@ -70,8 +70,19 @@ Estimates transmission capacity between each BA based on historical maximum flow
 - [x] Setup data loader
 - [ ] Make figures in notebooks
     - [x] Included/excluded regions
-    - [ ] Existing and planned transmission lines
+    - [x] Existing and planned transmission lines
     - [x] Network topology showing interregional connections
+    - [ ] Regional snapshots of lines
+        1. [ ] North America
+        2. [ ] Central America
+        3. [ ] Latin America
+        4. [ ] Europe
+        5. [ ] MENA
+        6. [ ] Sub-Saharan Africa
+        7. [ ] Central Asia
+        8. [ ] Eastern Asia
+        9. [ ] Southeast Asia
+        10. [ ] Oceania
     - [ ] Statistical features of lines
 - [ ] Include Zenodo link here
 
