@@ -404,3 +404,5 @@ class DatabasePlots:
 
         # frame
         plt.box(False)
+
+        return plt
