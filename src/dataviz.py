@@ -44,14 +44,18 @@ class DatabasePlots:
             self,
             bins = [0,1,5,10,25],
             labels = ['0-1','1-5','5-10','10-25'],
-            showgrid=True,
+            planned_capacity = False,
+            showgrid = True,
             colours = {
-                'node' : 'lightcoral',
+                'node' : 'dimgray',
+                'landcolor' : 'whitesmoke',
+                'borders' : 'white',
+                'oceancolor' : 'white',
                 'line_existing' : 'lightcoral',
                 'line_planned' : 'navy',
-                'landcolor' : 'whitesmoke',
-                'oceancolor' : 'white',
             },
+            line_min_width=0.5,
+            line_step=1.0,
             show_zero=False,
             **kwargs,
     ):
@@ -68,8 +72,15 @@ class DatabasePlots:
         #     (nodes.Node.isin(links['to'].tolist()))
         # ]
 
-        # adjust caps
-        links['existing capacity + (mw)'] = links['existing capacity + (mw)'].fillna(0).divide(1e3)
+        # field to plot
+        if planned_capacity:
+            field_to_plot = 'planned'
+        else:
+            field_to_plot = 'existing'
+
+        # take midpoint of +/- capacity
+        for i in ['existing','planned']:
+            links[i] = ( (links[f'{i} capacity + (mw)'].abs() + links[f'{i} capacity - (mw)'].abs()) / 2 ) / 1000 # MW -> GW
 
         # map lat,lon to links
         links['start_lat'] = links['from'].map( nodes.set_index('node').geometry.y.to_dict() )
@@ -79,7 +90,7 @@ class DatabasePlots:
 
         # bin capacities
         links['Capacity_Bin'] = pd.cut(
-            links['existing capacity + (mw)'], 
+            links[field_to_plot], 
             bins=bins, 
             labels=labels
         )
@@ -92,11 +103,10 @@ class DatabasePlots:
 
         # loop through link categories
         link_widths = {}
-        min_width = kwargs.get('min_width',0.5)
         for i in labels:
-            link_widths[i] = min_width
-            min_width += 1
-        link_widths['0'] = 0.5
+            link_widths[i] = line_min_width
+            line_min_width += line_step
+        link_widths['0'] = 0
 
         # remove zero
         if not show_zero:
@@ -124,7 +134,10 @@ class DatabasePlots:
             if i == '0':
                 color = None
             else:
-                color = colours['line_existing']
+                if planned_capacity:
+                    color = colours['line_planned']
+                else:
+                    color = colours['line_existing']
 
             fig.add_trace(
                 go.Scattergeo(
@@ -139,7 +152,7 @@ class DatabasePlots:
 
         fig.add_trace(
             go.Scattergeo(
-                name='nodes',
+                name='Node',
                 lon = nodes.geometry.x,
                 lat = nodes.geometry.y,
                 hoverinfo = 'text',
@@ -160,17 +173,17 @@ class DatabasePlots:
         fig.update_layout(
             template='ggplot2',
             geo = dict(
-                showland = True,
                 landcolor = colours['landcolor'],
                 projection_type=self.default_projection_type,
-                # subunitcolor = "rgb(255, 255, 255)",
-                # countrycolor = "rgb(255, 255, 255)",
+                showland = True,
                 showlakes = False,
-                lakecolor = "rgb(255, 255, 255)",
                 showsubunits = False,
-                showcountries = False,
-                showocean = True,
+                showcountries = True,
+                showcoastlines = False,
+                showrivers = False,
+                showocean = False,
                 oceancolor = colours['oceancolor'],
+                countrycolor = colours['borders'],
                 resolution = 110,
                 lonaxis = dict(
                     showgrid = showgrid,
@@ -189,6 +202,7 @@ class DatabasePlots:
             #paper_bgcolor="White",
             showlegend=True,
             legend_title=kwargs.get('legend_title','Key:'),
+            title=kwargs.get('title',f'{field_to_plot.title()} capacity (GW)'),
         )
 
         #plotly_defaults(fig)
@@ -199,7 +213,8 @@ class DatabasePlots:
     def map_excluded_regions(
             self,
             showgrid=False,
-            colours={'Included' : 'navy', 'Excluded' : 'red'}
+            colours={'Included' : 'navy', 'Excluded' : 'red'},
+            **kwargs,
     ):
         '''Show regions included/excluded in the model
         '''
@@ -225,11 +240,41 @@ class DatabasePlots:
         )
 
         # update geos
-        fig.update_geos(
-            visible=False,
-            projection_type=self.default_projection_type,
-            lataxis_showgrid=showgrid, 
-            lonaxis_showgrid=showgrid,
+        fig.update_layout(
+            title=kwargs.get('title',None),
+            template='ggplot2',
+            geo = dict(
+                landcolor = None,
+                projection_type=self.default_projection_type,
+                # subunitcolor = "rgb(255, 255, 255)",
+                # countrycolor = "rgb(255, 255, 255)",
+                lakecolor = "rgb(255, 255, 255)",
+                showland = False,
+                showlakes = False,
+                showsubunits = False,
+                showcountries = False,
+                showcoastlines = False,
+                showrivers = False,
+                showocean = False,
+                oceancolor = 'white',
+                resolution = 110,
+                lonaxis = dict(
+                    showgrid = showgrid,
+                    gridwidth = 0.5,
+                    dtick = 15
+                ),
+                lataxis = dict (
+                    showgrid = showgrid,
+                    gridwidth = 0.5,
+                    dtick = 15
+                )
+                ),
+            width=1000,
+            height=500,
+            margin={"r":50,"t":50,"l":50,"b":50},
+            #paper_bgcolor="White",
+            showlegend=True,
+            #legend_title=kwargs.get('legend_title','Key:'),
         )
 
         # set layout
@@ -241,7 +286,7 @@ class DatabasePlots:
         )
 
         return fig
-    
+
 
     def network_topology(
             self,
@@ -249,6 +294,7 @@ class DatabasePlots:
             jitter=1,
             colours = {'planned' : 'lightblue', 'existing' : 'orange'},
             font_size=5,
+            font_color='white',
             node_size=700,
             figsize=(8,8),
             legend_scale=1,
@@ -344,7 +390,7 @@ class DatabasePlots:
             G, 
             pos,
             labels=dict(zip(nodelist,nodelist)),
-            font_color='black',
+            font_color=font_color,
             font_size=font_size,
         )
 
