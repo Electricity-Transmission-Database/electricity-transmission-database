@@ -1,8 +1,9 @@
 # Global Tranmission Database
-Scripts to process and visualize data for the [Global Transmission Database](https://zenodo.org/doi/10.5281/zenodo.10063445).
+![alt text](https://github.com/Electricity-Transmission-Database/electricity-transmission-database/blob/main/outputs/figures/map_capacity_existing.png)
 
-## Description
-...
+Scripts to process and visualize data for the [Global Transmission Database](https://zenodo.org/doi/10.5281/zenodo.10063445). 
+
+This repository was created and is maintained by [Aman Majid](https://github.com/amanmajid) and [Trevor Barnes](https://github.com/trevorb1). 
 
 ## What's here
 ...
@@ -31,17 +32,10 @@ That's it! You are now ready to make plots. See example notebooks [here]().
 
 ```
 @dataset{brinkerink_2023_10063446,
-  author       = {Brinkerink, Maarten and
-                  Sherman, Gordon and
-                  Osei-Owusu, Simone and
-                  Mohanty, Reema and
-                  Majid, Aman and
-                  Barnes, Trevor and
-                  Niet, Taco and
-                  Shivakumar, Abhishek and
-                  Mayfield, Erin},
+  author       = {Brinkerink, Maarten and Sherman, Gordon and Osei-Owusu, Simone and Mohanty, Reema and Majid, Aman and Barnes, Trevor and
+                  Niet, Taco and Shivakumar, Abhishek and Mayfield, Erin},
   title        = {Global Transmission Database},
-  month        = nov,
+  month        = November,
   year         = 2023,
   publisher    = {Zenodo},
   version      = {0.1},
