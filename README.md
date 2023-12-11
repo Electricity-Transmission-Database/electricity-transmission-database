@@ -74,3 +74,6 @@ Estimates transmission capacity between each BA based on historical maximum flow
     - [x] Network topology showing interregional connections
     - [ ] Statistical features of lines
 - [ ] Include Zenodo link here
+
+## ISSUES
+- [ ] `map_excluded_regions` plot is very large due to highly resolved spatial boundaries. We can use default `plotly` presets instead. 
