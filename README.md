@@ -1,9 +1,7 @@
 # Global Tranmission Database
 ![alt text](https://github.com/Electricity-Transmission-Database/electricity-transmission-database/blob/main/outputs/figures/map_capacity_existing.png)
 
-Scripts to process and visualize data for the [Global Transmission Database](https://zenodo.org/doi/10.5281/zenodo.10063445). 
-
-This repository was created and is maintained by [Aman Majid](https://github.com/amanmajid) and [Trevor Barnes](https://github.com/trevorb1). 
+Scripts to process and visualize data for the [Global Transmission Database](https://zenodo.org/doi/10.5281/zenodo.10063445). The Global Transmission Database consists of comprehensive data regarding cross-border transmission capacities globally collated from public sources. The dataset is oriented towards representing entry level capacity data (MW) that can be used in energy system models and other computational tools. Transmission capacities are provided at a country-to-country basis in addition to regional level data for a sample of larger countries (Australia, Brazil, Canada, China, India, Indonesia, Japan, Philippines, Russian Federation, Thailand, United States, Vietnam). Capacities are provided for land-based transmission pathways as well as for subsea pathways. The beta release (0.1) of the database only includes existing transmission capacities as of 2023 with future versions also including planned capacities.
 
 ## What's here
 ...
@@ -43,6 +41,13 @@ That's it! You are now ready to make plots. See example notebooks [here]().
   url          = {https://doi.org/10.5281/zenodo.10063446}
 }
 ```
+
+## Contact
+
+This repository was created and is maintained by [Aman Majid](https://github.com/amanmajid) and [Trevor Barnes](https://github.com/trevorb1). 
+
+## License
+...
 
 <!-- ### Scripts
 
