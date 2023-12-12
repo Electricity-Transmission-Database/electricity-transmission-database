@@ -14,6 +14,8 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
+from shapely.geometry import Polygon, MultiPolygon
+
 from matplotlib.lines import Line2D
 
 from .database import GlobalTransmissionDatabase
@@ -218,8 +220,17 @@ class DatabasePlots:
     ):
         '''Show regions included/excluded in the model
         '''
+        
+        def simplify_multipolygon(geometry, tolerance=0.01):
+            if isinstance(geometry, Polygon):
+                return geometry.simplify(tolerance)
+            elif isinstance(geometry, MultiPolygon):
+                return MultiPolygon([polygon.simplify(tolerance) for polygon in geometry.geoms])
+            else:
+                return geometry
 
         df = self.df.INCLUDED_REGIONS.set_index('ISO_A3_EH').copy()
+        df['geometry'] = df['geometry'].map(lambda x: simplify_multipolygon(x))
 
         df.loc[df.EXCLUDED == '0', 'EXCLUDED'] = 'Included'
         df.loc[df.EXCLUDED == '1', 'EXCLUDED'] = 'Excluded'
