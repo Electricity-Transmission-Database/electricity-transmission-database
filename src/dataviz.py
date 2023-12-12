@@ -221,7 +221,7 @@ class DatabasePlots:
         '''Show regions included/excluded in the model
         '''
         
-        def simplify_multipolygon(geometry, tolerance=0.01):
+        def simplify_polygon(geometry, tolerance=0.01):
             if isinstance(geometry, Polygon):
                 return geometry.simplify(tolerance)
             elif isinstance(geometry, MultiPolygon):
@@ -230,7 +230,7 @@ class DatabasePlots:
                 return geometry
 
         df = self.df.INCLUDED_REGIONS.set_index('ISO_A3_EH').copy()
-        df['geometry'] = df['geometry'].map(lambda x: simplify_multipolygon(x))
+        df['geometry'] = df['geometry'].map(lambda x: simplify_polygon(x))
 
         df.loc[df.EXCLUDED == '0', 'EXCLUDED'] = 'Included'
         df.loc[df.EXCLUDED == '1', 'EXCLUDED'] = 'Excluded'
