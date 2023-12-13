@@ -219,7 +219,8 @@ class DatabasePlots:
         '''Show regions included/excluded in the model
         '''
 
-        df = self.df.INCLUDED_REGIONS.set_index('ISO_A3_EH').copy()
+        df = self.df.INCLUDED_REGIONS.set_index("SUBREGION").copy()
+        df["LABEL"] = df.index
 
         df.loc[df.EXCLUDED == '0', 'EXCLUDED'] = 'Included'
         df.loc[df.EXCLUDED == '1', 'EXCLUDED'] = 'Excluded'
@@ -231,12 +232,18 @@ class DatabasePlots:
             locations=df.index,
             color="EXCLUDED",
             color_discrete_map=colours,
+            custom_data=["REGION", "LABEL","EXCLUDED"]
         )
 
         # update traces
         fig.update_traces(
             marker_line_color='lightgray',
             marker_line_width=0.5,
+            hovertemplate="<br>".join([
+                "Country: %{customdata[0]}",
+                "Region: %{customdata[1]}",
+                "%{customdata[2]}<extra></extra>"
+            ])
         )
 
         # update geos
