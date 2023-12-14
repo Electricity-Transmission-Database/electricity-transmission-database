@@ -554,7 +554,12 @@ def make_shapefile(geojson: str, country: str, mapper: Dict[str,str], save: str 
     """
     
     gdf = gpd.read_file(geojson)
-    assert (gdf.GID_0 == country).all()
+    if country == "IND": # india's borders are tracked a little weird 
+        assert (
+            (gdf.GID_0 == country) | 
+            (gdf.GID_0.str.startswith("Z0"))).all()
+    else: 
+        assert (gdf.GID_0 == country).all()
     gdf = assign_subregions(gdf, mapper)
     gdf.to_file(Path(save,f"{country}.shp"), driver="ESRI Shapefile")
     
@@ -602,6 +607,9 @@ if __name__ == "__main__":
     ]
     
     for country, mapper in data:
+        shp_file = Path("./","..","data","shapefiles",country,f"{country}.shp")
+        if file_exists(shp_file):
+            continue
         geojson = Path("..","data","geojson",f"gadm41_{country}_1.json")
         if not file_exists(geojson):
             file_name = Path(geojson).name
