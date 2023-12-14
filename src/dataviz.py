@@ -213,37 +213,31 @@ class DatabasePlots:
     def map_excluded_regions(
             self,
             showgrid=False,
-            colours={'Included' : 'navy', 'Excluded' : 'red'},
+            colours={'True' : 'navy', 'False' : 'red'},
             **kwargs,
     ):
         '''Show regions included/excluded in the model
         '''
 
-        df = self.df.INCLUDED_REGIONS.set_index("SUBREGION").copy()
-        df["LABEL"] = df.index
-
-        df.loc[df.EXCLUDED == '0', 'EXCLUDED'] = 'Included'
-        df.loc[df.EXCLUDED == '1', 'EXCLUDED'] = 'Excluded'
-
         # make fig
         fig = px.choropleth(
-            df,
-            geojson=df.geometry,
-            locations=df.index,
-            color="EXCLUDED",
+            self.df.INCLUDED_REGIONS, 
+            locations="alpha-3",
+            color="Included", 
+            hover_name="name",
             color_discrete_map=colours,
-            custom_data=["REGION", "LABEL","EXCLUDED"]
+            hover_data=['region','sub-region'],
         )
 
         # update traces
         fig.update_traces(
             marker_line_color='lightgray',
             marker_line_width=0.5,
-            hovertemplate="<br>".join([
-                "Country: %{customdata[0]}",
-                "Region: %{customdata[1]}",
-                "%{customdata[2]}<extra></extra>"
-            ])
+            # hovertemplate="<br>".join([
+            #     "Country: %{customdata[0]}",
+            #     "Region: %{customdata[1]}",
+            #     "%{customdata[2]}<extra></extra>"
+            # ])
         )
 
         # update geos

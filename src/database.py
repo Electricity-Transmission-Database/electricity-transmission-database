@@ -31,9 +31,6 @@ class GlobalTransmissionDatabase:
             '../data/csv/iso_codes.csv'
         )
 
-        # read exclusion zones
-        self.INCLUDED_REGIONS = self._read_regions()
-
         # read database
         self.DATABASE = pd.read_excel(
             '../data/global_transmission_data.xlsx',
@@ -156,7 +153,24 @@ class GlobalTransmissionDatabase:
 
         # make column names lower case
         self.DATABASE.columns = [i.lower() for i in self.DATABASE.columns]
+
+        # read exclusion zones
+        regions = list(set( self.DATABASE['from'].str[0:3].unique().tolist() + self.DATABASE['to'].str[0:3].unique().tolist() ))
+        included_regions = self._iso_codes[['name','alpha-3','region','sub-region']].copy()
+
+        for i in included_regions['alpha-3']:
+            if i in regions:
+                included_regions.loc[
+                    included_regions['alpha-3'] == i, 'Included'
+                ] = 'True'
+            else:
+                included_regions.loc[
+                    included_regions['alpha-3'] == i, 'Included'
+                ] = 'False'
+
+        self.INCLUDED_REGIONS = included_regions
         
+
     def _read_regions(self) -> gpd.GeoDataFrame:
         '''Reads in spatially resolved regions'''
         
