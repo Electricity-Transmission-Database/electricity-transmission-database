@@ -15,10 +15,10 @@ import zipfile
 import shutil
 
 AUS_MAPPER = {
-    # "AshmoreandCartierIslands":"",
+    # "AshmoreandCartierIslands":"", # non-covered island
     "AustralianCapitalTerritory":"SW",
-    # "CoralSeaIslandsTerritory":"",
-    # "JervisBayTerritory":"",
+    # "CoralSeaIslandsTerritory":"", # non-covered island
+    "JervisBayTerritory":"SW",
     "NewSouthWales":"SW",
     "NorthernTerritory":"NT",
     "Queensland":"QL",
@@ -129,8 +129,7 @@ IND_MAPPER = {
     "Jharkhand":"EA",
     "Karnataka":"SO",
     "Kerala":"SO",
-    ########### NO Ladakh (INDNO) ##########
-    # "Lakshadweep":"",
+    # "Lakshadweep":"", # non-covered island 
     "MadhyaPradesh":"WE",
     "Maharashtra":"WE",
     "Manipur":"NE",
@@ -152,48 +151,53 @@ IND_MAPPER = {
 }
 
 JPN_MAPPER = {
-    "Aichi":"",
-    "Akita":"",
-    "Aomori":"",
-    "Chiba":"",
-    "Ehime":"",
-    "Fukui":"",
-    "Fukuoka":"",
-    "Fukushima":"",
-    "Gifu":"",
-    "Gunma":"",
-    "Hiroshima":"",
-    "Hokkaido":"",
-    "Hyōgo":"",
-    "Ibaraki":"",
-    "Ishikawa":"",
-    "Iwate":"",
-    "Kagawa":"",
-    "Kagoshima":"",
-    "Kanagawa":"",
-    "Kochi":"",
-    "Kumamoto":"",
-    "Kyoto":"",
-    "Mie":"",
-    "Miyagi":"",
-    "Miyazaki":"",
-    "Nagano":"",
-    "Naoasaki":"",
-    "Nara":"",
-    "Niigata":"",
-    "Oita":"",
-    "Okayama":"",
-    "Okinawa":"",
-    "Osaka":"",
-    "Saga":"",
-    "Saitama":"",
-    "Shiga":"",
-    "Shimane":"",
-    "Shizuoka":"",
-    "Tochigi":"",
-    "Tokushima":"",
-    "Tokyo":"",
-    "Tottor":"",
+    "Aichi":"CE",
+    "Akita":"TO",
+    "Aomori":"TO",
+    "Chiba":"TO",
+    "Ehime":"SH",
+    "Fukui":"CE",
+    "Fukuoka":"KY",
+    "Fukushima":"TO",
+    "Gifu":"CE",
+    "Gunma":"TO",
+    "Hiroshima":"CE",
+    "Hokkaido":"HO",
+    "Hyōgo":"CE",
+    "Ibaraki":"TO",
+    "Ishikawa":"CE",
+    "Iwate":"TO",
+    "Kagawa":"SH",
+    "Kagoshima":"KY",
+    "Kanagawa":"TO",
+    "Kochi":"SH",
+    "Kumamoto":"KY",
+    "Kyoto":"CE",
+    "Mie":"CE",
+    "Miyagi":"TO",
+    "Miyazaki":"KY",
+    "Nagano":"CE",
+    "Naoasaki":"KY",
+    "Nara":"CE",
+    "Niigata":"TO",
+    "Oita":"KY",
+    "Okayama":"CE",
+    "Okinawa":"OK",
+    "Osaka":"CE",
+    "Saga":"KY",
+    "Saitama":"TO",
+    "Shiga":"CE",
+    "Shimane":"CE",
+    "Shizuoka":"CE",
+    "Tochigi":"TO",
+    "Tokushima":"SH",
+    "Tokyo":"TO",
+    "Tottori":"CE",
+    "Toyama":"CE",
+    "Wakayama":"CE",
+    "Yamagata":"TO",
+    "Yamaguchi":"CE",
+    "Yamanashi":"CE",
 }
 
 MYS_MAPPER = {
@@ -311,9 +315,7 @@ RUS_MAPPER = {
     "Buryat":"SI",
     "Chechnya":"SO",
     "Chelyabinsk":"UR",
-    ############## NO Chita (RUSSI) ######
-    ############## NO Chukchi Autonomous Okrug (RUSFE) ######
-    # "Chukot":"",
+    "Chukot":"FE",
     "Chuvash":"MV",
     "CityofSt.Petersburg":"NW",
     "Dagestan":"SO",
@@ -341,12 +343,10 @@ RUS_MAPPER = {
     "Kursk":"CE",
     "Leningrad":"NW",
     "Lipetsk":"CE",
-    ############### NO Maga Buryatdan (RUSFE) ############
-    # "Magadan":"",
+    "Magadan":"FE",
     "Mariy-El":"MV",
     "Mordovia":"MV",
-    # "MoscowCity":"",
-    ############### NO Moskovskaya (RUSCE) ############
+    "MoscowCity":"CE",
     "Moskva":"CE",
     "Murmansk":"NW",
     "Nenets":"NW",
@@ -386,7 +386,7 @@ RUS_MAPPER = {
     "Yamal-Nenets":"UR",
     "Yaroslavl'":"CE",
     "Yevrey":"FE",
-    # "Zabaykal'ye":"",
+    "Zabaykal'ye":"SI",
 }
 
 THA_MAPPER = {
@@ -598,7 +598,7 @@ if __name__ == "__main__":
         ("CAN", CAN_MAPPER), # Canada
         ("IDN", IDN_MAPPER), # Indonesia
         ("IND", IND_MAPPER), # India
-        # ("JPN", JPN_MAPPER), # Japan
+        ("JPN", JPN_MAPPER), # Japan
         ("MYS", MYS_MAPPER), # Malaysia
         ("PHL", PHL_MAPPER), # Philippines
         ("RUS", RUS_MAPPER), # Russia
