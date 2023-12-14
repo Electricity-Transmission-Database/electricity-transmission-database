@@ -46,8 +46,8 @@ class GlobalTransmissionDatabase:
         self.CENTRE_POINTS = self._nodes.copy()
 
         # map regions
-        self.CENTRE_POINTS['region'] = self.CENTRE_POINTS.Node.str[0:3].map( self._iso_codes.set_index('alpha-3')['region'].to_dict() )
-        self.CENTRE_POINTS['subregion'] = self.CENTRE_POINTS.Node.str[0:3].map( self._iso_codes.set_index('alpha-3')['sub-region'].to_dict() )
+        self.CENTRE_POINTS['region'] = self.CENTRE_POINTS.iso.map( self._iso_codes.set_index('alpha-3')['region'].to_dict() )
+        self.CENTRE_POINTS['subregion'] = self.CENTRE_POINTS.iso.map( self._iso_codes.set_index('alpha-3')['sub-region'].to_dict() )
 
         # convert to geo_df
         geometry = [Point(xy) for xy in zip(self.CENTRE_POINTS.Centroid_Lon, self.CENTRE_POINTS.Centroid_Lat)]
@@ -65,8 +65,8 @@ class GlobalTransmissionDatabase:
         self.POPULATION_CENTRES = self._nodes.copy()
 
         # map regions
-        self.POPULATION_CENTRES['region'] = self.POPULATION_CENTRES.Node.str[0:3].map( self._iso_codes.set_index('alpha-3')['region'].to_dict() )
-        self.POPULATION_CENTRES['subregion'] = self.POPULATION_CENTRES.Node.str[0:3].map( self._iso_codes.set_index('alpha-3')['sub-region'].to_dict() )
+        self.POPULATION_CENTRES['region'] = self.POPULATION_CENTRES.iso.map( self._iso_codes.set_index('alpha-3')['region'].to_dict() )
+        self.POPULATION_CENTRES['subregion'] = self.POPULATION_CENTRES.iso.map( self._iso_codes.set_index('alpha-3')['sub-region'].to_dict() )
 
         # convert to geo_df
         geometry = [Point(xy) for xy in zip(self.POPULATION_CENTRES.Pop_Lon, self.POPULATION_CENTRES.Pop_Lat)]

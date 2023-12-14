@@ -607,9 +607,11 @@ if __name__ == "__main__":
     ]
     
     for country, mapper in data:
+        
         shp_file = Path("./","..","data","shapefiles",country,f"{country}.shp")
         if file_exists(shp_file):
             continue
+        
         geojson = Path("..","data","geojson",f"gadm41_{country}_1.json")
         if not file_exists(geojson):
             file_name = Path(geojson).name
@@ -619,6 +621,7 @@ if __name__ == "__main__":
             shutil.move(f"./{file_name}/{file_name}", geojson)
             Path(file_name).rmdir()
             Path(f"{file_name}.zip").unlink()
+            
         save_dir = Path("./","..","data","shapefiles",country)
         save_dir.mkdir(exist_ok=True)
         make_shapefile(geojson, country, mapper, save_dir)
