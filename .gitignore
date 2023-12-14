@@ -7,6 +7,9 @@ usa/worldcities
 src_devel/*
 notebooks/tests.ipynb
 
+.vscode/* 
+data/geojson/*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
