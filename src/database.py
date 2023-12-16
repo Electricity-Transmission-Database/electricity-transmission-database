@@ -174,22 +174,13 @@ class GlobalTransmissionDatabase:
     def _read_regions(self) -> gpd.GeoDataFrame:
         '''Reads in spatially resolved regions'''
         
-        # world base data 
-        gdf_base = gpd.read_file(
-            '../data/shapefiles/excluded_regions/excluded_regions.shp'
-        ).rename(columns={"ISO_A3_EH":"REGION"})
-        gdf_base["SUBREGION"] = ""
-        gdf_base = gdf_base[~(gdf_base.REGION == "USA")][["REGION", "SUBREGION", "EXCLUDED", "geometry"]]
-        
-        # usa data 
-        gdf_usa = gpd.read_file(
-            '../data/shapefiles/usa/usa.shp'
-        )
-        gdf_usa = gdf_usa[["REGION", "SUBREGION", "EXCLUDED", "geometry"]]
-
-        gdf_world = gpd.GeoDataFrame(pd.concat([gdf_base, gdf_usa], ignore_index=True)).reset_index(drop=True)
-        gdf_world["SUBREGION"] = gdf_world.apply(lambda row: row["SUBREGION"] if row["SUBREGION"] else row["REGION"], axis=1)
-        return gdf_world 
+        return gpd.read_file(
+            '../data/shapefiles/excluded_regions/excluded_regions.shp').rename(
+                columns={
+                    "region":"REGION",
+                    "subregion":"SUBREGION"
+                }
+            )
 
 
     def get_interregional_capacity(self,by='subregion'):
