@@ -711,9 +711,37 @@ if __name__ == "__main__":
     # Add subregional for USA (balancing authorities)
     ###
     
-    # See USA notebook right now 
-    usa_path = Path("..","data","shapefiles", "USA", "USA.shp")
-    gdf_usa = gpd.read_file(usa_path)
+    usa_path = Path("..","data","shapefiles", "usa", "usa.shp")
+    
+    if not file_exists(usa_path):
+        usa_geojson = Path("..","data","geojson", "usa.geojson")
+        if not file_exists(usa_geojson):
+            download_file(
+                url="https://raw.githubusercontent.com/electricitymaps/electricitymaps-contrib/master/web/geo/world.geojson",
+                destination=usa_geojson
+            )
+        gdf_usa = gpd.read_file(usa_geojson)
+        nodes = pd.read_csv(Path("..","data","csv", "nodes.csv"))
+        nodes_usa = nodes[nodes.iso == "USA"]
+        
+        gdf_usa["region"] = "USA"
+        gdf_usa = gdf_usa[gdf_usa["countryKey"] == "US"]
+        gdf_usa["subregion"] = gdf_usa["zoneName"].map(nodes_usa.set_index("Node_Verbose").to_dict()["region_code"])
+        
+        # Should only drop Hawaii
+        rows_to_drop = gdf_usa[gdf_usa["subregion"].isna()]["zoneName"]
+        if not rows_to_drop.empty:
+            print(f"Dropping {rows_to_drop.to_list()} from USA dataframe")
+        gdf_usa = gdf_usa[~gdf_usa["subregion"].isna()]
+        
+        gdf_usa = gdf_usa[["region", "subregion", "geometry"]]
+        
+        usa_path.parent.mkdir(parents=True, exist_ok=True)
+        gdf_usa.to_file(usa_path)
+        print("Made USA data")
+        
+    else:
+        gdf_usa = gpd.read_file(usa_path)
     
     ### 
     # Create final spatial representation
