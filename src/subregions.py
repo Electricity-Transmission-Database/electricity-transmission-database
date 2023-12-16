@@ -712,6 +712,7 @@ if __name__ == "__main__":
     ###
     
     usa_path = Path("..","data","shapefiles", "usa", "usa.shp")
+    nodes = pd.read_csv(Path("..","data","csv", "nodes.csv"))
     
     if not file_exists(usa_path):
         usa_geojson = Path("..","data","geojson", "usa.geojson")
@@ -721,7 +722,6 @@ if __name__ == "__main__":
                 destination=usa_geojson
             )
         gdf_usa = gpd.read_file(usa_geojson)
-        nodes = pd.read_csv(Path("..","data","csv", "nodes.csv"))
         nodes_usa = nodes[nodes.iso == "USA"]
         
         gdf_usa["region"] = "USA"
@@ -747,16 +747,7 @@ if __name__ == "__main__":
     # Create final spatial representation
     ###
     
-    excluded_regions = (
-        "PSE", "SSD", "GUY", "MAF", "SXM", "ERI", "LIE", "SMR", "HTI", "MCO", 
-        "BDI", "AND", "GIB", "BLZ", "GMB", "HKG", "VAT", "NCL", "CUW", "ABW", 
-        "BHS", "TCA", "SPM", "PCN", "PYF", "ATF", "SYC", "KIR", "MHL", "GRD", 
-        "VCT", "BRB", "LCA", "DMA", "MSR", "ATG", "KNA", "VIR", "BLM", "PRI",
-        "AIA", "VGB", "CYM", "BMU", "HMD", "SHN", "COM", "STP", "JEY", "GGY",
-        "IMN", "FRO", "IOT", "NFK", "COK", "TON", "WLF", "WSM", "SLB", "TUV",
-        "MDV", "NRU", "FSM", "SGS", "FLK", "VUT", "NIU", "ASM", "PLW", "GUM",
-        "MNP", "MAC", "UMI"
-    )
+    excluded_regions = [x for x in gdf_admin_0.region.unique() if x not in nodes.iso.unique()]
 
     gdf_world = gdf_admin_0[
         ~(gdf_admin_0.region.isin([r[0] for r in admin_1_data])) &
