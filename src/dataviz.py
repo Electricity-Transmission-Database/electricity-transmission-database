@@ -213,15 +213,20 @@ class DatabasePlots:
     def map_excluded_regions(
             self,
             showgrid=False,
-            colours={'True' : 'navy', 'False' : 'red'},
+            colours={'Included' : 'navy', 'Excluded' : 'red'},
             **kwargs,
     ):
         '''Show regions included/excluded in the model
         '''
 
+        # update exclude column
+        df = self.df.INCLUDED_REGIONS.copy()
+        df.loc[df.Included == 'True', 'Included'] = 'Included'
+        df.loc[df.Included == 'False', 'Included'] = 'Excluded'
+
         # make fig
         fig = px.choropleth(
-            self.df.INCLUDED_REGIONS, 
+            df, 
             locations="alpha-3",
             color="Included", 
             hover_name="name",
