@@ -75,6 +75,42 @@ CAN_MAPPER = {
     "Yukon":"NO",
 }
 
+CHN_MAPPER = {
+    "Anhui":"AN",
+    "Beijing":"BE",
+    "Chongqing":"CH",
+    "Fujian":"FU",
+    "Gansu":"GA",
+    "Guangdong":"GD",
+    "Guangxi":"GX",
+    "Guizhou":"GU",
+    "Hainan":"HA",
+    "Hebei":"HB",
+    "Heilongjiang":"HJ",
+    "Henan":"HN",
+    "HongKong":"HK",
+    "Hubei":"HU",
+    "Hunan":"HN",
+    "Jiangsu":"JS",
+    "Jiangxi":"JX",
+    "Jilin":"JI",
+    "Liaoning":"LI",
+    "Macau":"MA",
+    "NeiMongol":"NM",
+    "NingxiaHui":"NI",
+    "Qinghai":"QI",
+    "Shaanxi":"SI",
+    "Shandong":"SD",
+    "Shanghai":"SH",
+    "Shanxi":"SX",
+    "Sichuan":"SC",
+    "Tianjin":"TJ",
+    "XinjiangUygur":"ZH",
+    "Xizang":"XI",
+    "Yunnan":"YU",
+    "Zhejiang":"ZH"
+}
+
 IDN_MAPPER = {
     "Aceh":"SM",
     "Bali":"NU",
@@ -555,7 +591,7 @@ def make_subregions(geojson: str, country: str, mapper: Dict[str,str], save: str
     """
     
     gdf = gpd.read_file(geojson)
-    if country == "IND": # india's borders are tracked a little weird 
+    if (country == "IND") | (country == "CHN"): # borders are tracked a little weird 
         assert (
             (gdf.GID_0 == country) | 
             (gdf.GID_0.str.startswith("Z0"))).all()
@@ -656,6 +692,7 @@ if __name__ == "__main__":
         ("AUS", AUS_MAPPER), # Australia
         ("BRA", BRA_MAPPER), # Brazil
         ("CAN", CAN_MAPPER), # Canada
+        ("CHN", CHN_MAPPER), # China
         ("IDN", IDN_MAPPER), # Indonesia
         ("IND", IND_MAPPER), # India
         ("JPN", JPN_MAPPER), # Japan
