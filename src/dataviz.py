@@ -12,6 +12,8 @@ import pandas as pd
 import networkx as nx
 import plotly.express as px
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+import matplotlib.colors as mcolors
 import plotly.graph_objects as go
 
 from matplotlib.lines import Line2D
@@ -438,19 +440,51 @@ class DatabasePlots:
             data = self.df.GEOMETRY[self.df.GEOMETRY[f"iso_{by}"]==area].copy()
         else:
             data = self.df.GEOMETRY.copy()
+    
         
-        data = data.reset_index()
-        data["color"] = (data.index + 1) % 21
+        data["color"] = np.random.permutation(len(data))
         
         fig, ax = plt.subplots(figsize=figsize)
         
+        # https://matplotlib.org/stable/gallery/color/named_colors.html
+        cmap = [x for x in mcolors.CSS4_COLORS.keys() if x not in [
+            "black", 
+            "dimgray", 
+            "dimgrey", 
+            "gray", 
+            "grey", 
+            "darkgrey", 
+            "lightgrey", 
+            "white", 
+            "snow", 
+            "maroon", 
+            "seashell", 
+            "lineu",
+            "oldlace",
+            "floralwhite",
+            "ivory",
+            "honeydew",
+            "mintcream",
+            "azure",
+            "lightslategrey",
+            "lightslategray",
+            "slategrey",
+            "ghostwhite",
+            "indigo",
+            "darkviolet",
+            "mediumorchid",
+            "darkmagenta",
+            "fuchsia",
+            "lavenderblush"]
+        ]
+
         data.plot(
             column="color",
-            cmap="tab20",
+            cmap=ListedColormap(cmap),
             ax=ax
         )
         
-        plt.tight_layout()
+        fig.tight_layout()
         
         return fig
         
