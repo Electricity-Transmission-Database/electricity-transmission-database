@@ -412,3 +412,52 @@ class DatabasePlots:
         plt.box(False)
 
         return plt
+    
+    def spatial_representation(
+            self,
+            by="region",
+            area="world",
+            figsize=(8,8),
+    ):
+        
+        try:
+            assert by in ["region", "subregion"]
+        except AssertionError as e:
+            print(f"keyword 'by' must be in ('region', 'subregion'). Recieved {by}")
+            return 
+        
+        try:
+            valid = list(self.df.GEOMETRY[f"iso_{by}"].unique())
+            valid.append("world")
+            assert area in valid
+        except AssertionError as e:
+            print(f"keyword 'area' must be in {valid}. Recieved {area}")
+            return 
+        
+        if not area=="world":
+            data = self.df.GEOMETRY[self.df.GEOMETRY[f"iso_{by}"]==area].copy()
+        else:
+            data = self.df.GEOMETRY.copy()
+        
+        data = data.reset_index()
+        data["color"] = (data.index + 1) % 21
+        
+        fig, ax = plt.subplots(figsize=figsize)
+        
+        data.plot(
+            column="color",
+            cmap="tab20",
+            ax=ax
+        )
+        
+        plt.tight_layout()
+        
+        return fig
+        
+
+        
+        
+        
+        
+        
+    
