@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import matplotlib.colors as mcolors
 import plotly.graph_objects as go
+from shapely import MultiPolygon, affinity
 
 from matplotlib.lines import Line2D
 
@@ -419,8 +420,15 @@ class DatabasePlots:
             self,
             by="region",
             area="world",
+            excluded_regions=True,
             figsize=(8,8),
     ):
+        
+        def fix_geometry(polygon, cutoff):
+            if polygon.exterior.xy[0][0] < cutoff:
+                return affinity.translate(polygon, xoff=360, yoff=0)
+            else:
+                return polygon
         
         try:
             assert by in ["region", "subregion"]
@@ -436,13 +444,22 @@ class DatabasePlots:
             print(f"keyword 'area' must be in {valid}. Recieved {area}")
             return 
         
-        if not area=="world":
-            data = self.df.GEOMETRY[self.df.GEOMETRY[f"iso_{by}"]==area].copy()
-        else:
-            data = self.df.GEOMETRY.copy()
-    
+        data = self.df.GEOMETRY.copy()
         
-        data["color"] = np.random.permutation(len(data))
+        # fix one russia region that gets split at 180/-180 latitude
+        rus_fe = [fix_geometry(x, -160) for x in self.df.GEOMETRY.loc["RUS-FE"].geometry.geoms]
+        rus_fe_shape = MultiPolygon(rus_fe)
+        data.at["RUS-FE", "geometry"] = rus_fe_shape
+                
+        if not area=="world":
+            data = data[data[f"iso_{by}"]==area]
+        
+        # extract out excluded regions
+        iso_excluded_regions = self.df.INCLUDED_REGIONS[self.df.INCLUDED_REGIONS.Included == "False"]["alpha-3"]
+        data_included = data[~data.REGION.isin(iso_excluded_regions)].copy()
+        data_excluded = data[data.REGION.isin(iso_excluded_regions)].copy()
+        
+        data_included["color"] = np.random.permutation(len(data_included))
         
         fig, ax = plt.subplots(figsize=figsize)
         
@@ -452,24 +469,45 @@ class DatabasePlots:
             "dimgray", 
             "dimgrey", 
             "gray", 
-            "grey", 
-            "darkgrey", 
-            "lightgrey", 
+            # "grey", 
+            "darkgray", 
+            # "darkgrey",
+            "silver", 
+            "lightgrey",
+            "lightgray",
+            "gainsboro",
+            "whitesmoke", 
             "white", 
             "snow", 
             "maroon", 
+            "mistyrose",
             "seashell", 
-            "lineu",
+            "linen",
+            "oldlace",
+            "bisque",
+            "antiquewhite",
+            "blanchedalmond",
+            "papaywhip",
             "oldlace",
             "floralwhite",
+            "cornsilk",
+            "lemonchiffon",
             "ivory",
+            "beige",
+            "lightyellow",
+            "lightgoldenrodyellow",
+            "yellow",
             "honeydew",
             "mintcream",
             "azure",
+            "lightcyan",
+            "lightskyblue",
+            "aliceblue",
             "lightslategrey",
             "lightslategray",
             "slategrey",
             "ghostwhite",
+            "lavender",
             "indigo",
             "darkviolet",
             "mediumorchid",
@@ -477,14 +515,22 @@ class DatabasePlots:
             "fuchsia",
             "lavenderblush"]
         ]
-
-        data.plot(
+        
+        data_included.plot(
             column="color",
             cmap=ListedColormap(cmap),
             ax=ax
         )
+        if excluded_regions:
+            data_excluded.plot(
+                color="black",
+                ax=ax
+            )
+        ax.axis("off")
         
-        fig.tight_layout()
+        xmin, ymin, xmax, ymax = data.total_bounds
+        ax.set_xlim(xmin-1, xmax+1)
+        ax.set_ylim(ymin-1, ymax+1)
         
         return fig
         
