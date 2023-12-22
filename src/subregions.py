@@ -573,19 +573,6 @@ def assign_subregions(gdf: gpd.GeoDataFrame, mapper: Dict[str,str]) -> gpd.GeoDa
     gdf["subregion"] = gdf["NAME_1"].map(mapper)
     return gdf.dissolve(by="subregion").reset_index()[["region", "subregion", "geometry"]]
 
-def assign_excluded(gdf: gpd.GeoDataFrame, excluded: List[str] = None) -> gpd.GeoDataFrame:
-    """Adds an excluded column to dataframe based on iso codes"""
-    
-    if excluded:
-        gdf["EXCLUDED"] = gdf.apply(
-            lambda x: "1" if x.region in excluded else "0", axis=1
-        )
-    else: 
-        gdf["EXCLUDED"] = "0"
-    
-    # assign geometry column to be at the end
-    return gdf[[x for x in gdf.columns if x != "geometry"] + ["geometry"]]
-
 def format_admin_0(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Formats admin level 0 data
     
@@ -732,7 +719,7 @@ if __name__ == "__main__":
         rows_to_drop = gdf_usa[gdf_usa["subregion"].isna()]["zoneName"]
         if not rows_to_drop.empty:
             print(f"Dropping {rows_to_drop.to_list()} from USA dataframe")
-        gdf_usa = gdf_usa[~gdf_usa["subregion"].isna()]
+            gdf_usa = gdf_usa[~gdf_usa["subregion"].isna()]
         
         gdf_usa = gdf_usa[["region", "subregion", "geometry"]]
         
@@ -746,15 +733,12 @@ if __name__ == "__main__":
     ### 
     # Create final spatial representation
     ###
-    
-    excluded_regions = [x for x in gdf_admin_0.region.unique() if x not in nodes.iso.unique()]
 
     gdf_world = gdf_admin_0[
         ~(gdf_admin_0.region.isin([r[0] for r in admin_1_data])) &
         ~(gdf_admin_0.region == "USA")
     ]
     gdf_world = gpd.pd.concat([gdf_world, gdf_admin_1, gdf_usa], ignore_index=True)
-    gdf_world = assign_excluded(gdf_world, excluded_regions)
     
     shp_file.parent.mkdir(parents=True, exist_ok=True)
     gdf_world.to_file(shp_file)
