@@ -16,6 +16,7 @@ from matplotlib.colors import ListedColormap
 import matplotlib.colors as mcolors
 import plotly.graph_objects as go
 from shapely import MultiPolygon, affinity
+import random
 
 from matplotlib.lines import Line2D
 
@@ -459,68 +460,53 @@ class DatabasePlots:
         data_included = data[~data.REGION.isin(iso_excluded_regions)].copy()
         data_excluded = data[data.REGION.isin(iso_excluded_regions)].copy()
         
-        data_included["color"] = np.random.permutation(len(data_included))
+        # https://matplotlib.org/stable/gallery/color/named_colors.html
+        cmap = [
+            "lightcoral",
+            "firebrick",
+            "tomato",
+            "chocolate",
+            "sandybrown",
+            "darkorange",
+            "goldenrod",
+            "gold",
+            "darkkhaki",
+            "olivedrab",
+            "yellowgreen",
+            "chartreuse",
+            "darkseagreen",
+            "lightgreen",
+            "forestgreen",
+            "mediumseagreen",
+            "mediumaquamarine",
+            "turquoise",
+            "teal",
+            "darkturquoise",
+            "deepskyblue",
+            "steelblue",
+            "dodgerblue",
+            "slategrey",
+            "royalblue",
+            "slateblue",
+            "blueviolet",
+            "mediumorchid",
+            "fuchsia",
+            "deeppink",
+            "crimson"
+        ]
+
+        data_included = data_included.reset_index()
+        data_included["color"] = (data_included.index % len(cmap)) + 1
         
         fig, ax = plt.subplots(figsize=figsize)
-        
-        # https://matplotlib.org/stable/gallery/color/named_colors.html
-        cmap = [x for x in mcolors.CSS4_COLORS.keys() if x not in [
-            "black", 
-            "dimgray", 
-            "dimgrey", 
-            "gray", 
-            # "grey", 
-            "darkgray", 
-            # "darkgrey",
-            "silver", 
-            "lightgrey",
-            "lightgray",
-            "gainsboro",
-            "whitesmoke", 
-            "white", 
-            "snow", 
-            "maroon", 
-            "mistyrose",
-            "seashell", 
-            "linen",
-            "oldlace",
-            "bisque",
-            "antiquewhite",
-            "blanchedalmond",
-            "papaywhip",
-            "oldlace",
-            "floralwhite",
-            "cornsilk",
-            "lemonchiffon",
-            "ivory",
-            "beige",
-            "lightyellow",
-            "lightgoldenrodyellow",
-            "yellow",
-            "honeydew",
-            "mintcream",
-            "azure",
-            "lightcyan",
-            "lightskyblue",
-            "aliceblue",
-            "lightslategrey",
-            "lightslategray",
-            "slategrey",
-            "ghostwhite",
-            "lavender",
-            "indigo",
-            "darkviolet",
-            "mediumorchid",
-            "darkmagenta",
-            "fuchsia",
-            "lavenderblush"]
-        ]
         
         data_included.plot(
             column="color",
             cmap=ListedColormap(cmap),
+            categorical=True,
             ax=ax
         )
+        
         if excluded_regions:
             data_excluded.plot(
                 color="black",
