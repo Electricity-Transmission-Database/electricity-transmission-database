@@ -8,7 +8,8 @@ src_devel/*
 notebooks/tests.ipynb
 
 .vscode/* 
-data/geojson/*.json
+data/geojson/*json
+data/shapefiles/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

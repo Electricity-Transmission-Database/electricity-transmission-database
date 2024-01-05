@@ -36,6 +36,15 @@ class GlobalTransmissionDatabase:
             '../data/global_transmission_data.xlsx',
             skiprows=1,
         )
+        
+        # read geometry 
+        self.GEOMETRY = gpd.read_file(
+            '../data/shapefiles/world/world.shp').rename(
+                columns={
+                    "region":"REGION",
+                    "subregion":"SUBREGION"
+                }
+            )
 
         ##################
         # PROCESS
@@ -170,27 +179,15 @@ class GlobalTransmissionDatabase:
 
         self.INCLUDED_REGIONS = included_regions
         
-
-    def _read_regions(self) -> gpd.GeoDataFrame:
-        '''Reads in spatially resolved regions'''
+        # --
+        # GEOMETRY
+        self.GEOMETRY["iso_region"] = self.GEOMETRY.REGION.map(
+            self._iso_codes.set_index("alpha-3").to_dict()["region"])
+        self.GEOMETRY["iso_subregion"] = self.GEOMETRY.REGION.map(
+            self._iso_codes.set_index("alpha-3").to_dict()["sub-region"])
         
-        # world base data 
-        gdf_base = gpd.read_file(
-            '../data/shapefiles/excluded_regions/excluded_regions.shp'
-        ).rename(columns={"ISO_A3_EH":"REGION"})
-        gdf_base["SUBREGION"] = ""
-        gdf_base = gdf_base[~(gdf_base.REGION == "USA")][["REGION", "SUBREGION", "EXCLUDED", "geometry"]]
-        
-        # usa data 
-        gdf_usa = gpd.read_file(
-            '../data/shapefiles/usa/usa.shp'
-        )
-        gdf_usa = gdf_usa[["REGION", "SUBREGION", "EXCLUDED", "geometry"]]
-
-        gdf_world = gpd.GeoDataFrame(pd.concat([gdf_base, gdf_usa], ignore_index=True)).reset_index(drop=True)
-        gdf_world["SUBREGION"] = gdf_world.apply(lambda row: row["SUBREGION"] if row["SUBREGION"] else row["REGION"], axis=1)
-        return gdf_world 
-
+        self.GEOMETRY["node"] = self.GEOMETRY.apply(lambda row: f"{row.REGION}-{row.SUBREGION}", axis=1)
+        self.GEOMETRY = self.GEOMETRY.set_index("node")
 
     def get_interregional_capacity(self,by='subregion'):
         '''Get total capacities (existing and planned) between regions
