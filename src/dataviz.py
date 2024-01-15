@@ -12,7 +12,11 @@ import pandas as pd
 import networkx as nx
 import plotly.express as px
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+import matplotlib.colors as mcolors
 import plotly.graph_objects as go
+from shapely import MultiPolygon, affinity
+import random
 
 from matplotlib.lines import Line2D
 
@@ -413,3 +417,114 @@ class DatabasePlots:
         plt.box(False)
 
         return plt
+    
+    def spatial_representation(
+            self,
+            by="region",
+            area="world",
+            excluded_regions=True,
+            figsize=(8,8),
+    ):
+        
+        def fix_geometry(polygon, cutoff):
+            if polygon.exterior.xy[0][0] < cutoff:
+                return affinity.translate(polygon, xoff=360, yoff=0)
+            else:
+                return polygon
+        
+        try:
+            assert by in ["region", "subregion"]
+        except AssertionError as e:
+            print(f"keyword 'by' must be in ('region', 'subregion'). Recieved {by}")
+            return 
+        
+        try:
+            valid = list(self.df.GEOMETRY[f"iso_{by}"].unique())
+            valid.append("world")
+            assert area in valid
+        except AssertionError as e:
+            print(f"keyword 'area' must be in {valid}. Recieved {area}")
+            return 
+        
+        data = self.df.GEOMETRY.copy()
+        
+        # fix one russia region that gets split at 180/-180 latitude
+        rus_fe = [fix_geometry(x, -160) for x in self.df.GEOMETRY.loc["RUS-FE"].geometry.geoms]
+        rus_fe_shape = MultiPolygon(rus_fe)
+        data.at["RUS-FE", "geometry"] = rus_fe_shape
+                
+        if not area=="world":
+            data = data[data[f"iso_{by}"]==area]
+        
+        # extract out excluded regions
+        iso_excluded_regions = self.df.INCLUDED_REGIONS[self.df.INCLUDED_REGIONS.Included == "False"]["alpha-3"]
+        data_included = data[~data.REGION.isin(iso_excluded_regions)].copy()
+        data_excluded = data[data.REGION.isin(iso_excluded_regions)].copy()
+        
+        # https://matplotlib.org/stable/gallery/color/named_colors.html
+        cmap = [
+            "lightcoral",
+            "firebrick",
+            "tomato",
+            "chocolate",
+            "sandybrown",
+            "darkorange",
+            "goldenrod",
+            "gold",
+            "darkkhaki",
+            "olivedrab",
+            "yellowgreen",
+            "chartreuse",
+            "darkseagreen",
+            "lightgreen",
+            "forestgreen",
+            "mediumseagreen",
+            "mediumaquamarine",
+            "turquoise",
+            "teal",
+            "darkturquoise",
+            "deepskyblue",
+            "steelblue",
+            "dodgerblue",
+            "slategrey",
+            "royalblue",
+            "slateblue",
+            "blueviolet",
+            "mediumorchid",
+            "fuchsia",
+            "deeppink",
+            "crimson"
+        ]
+
+        data_included = data_included.reset_index()
+        data_included["color"] = (data_included.index % len(cmap)) + 1
+        
+        fig, ax = plt.subplots(figsize=figsize)
+        
+        data_included.plot(
+            column="color",
+            cmap=ListedColormap(cmap),
+            categorical=True,
+            ax=ax
+        )
+        
+        if excluded_regions:
+            data_excluded.plot(
+                color="black",
+                ax=ax
+            )
+        ax.axis("off")
+        
+        xmin, ymin, xmax, ymax = data.total_bounds
+        ax.set_xlim(xmin-1, xmax+1)
+        ax.set_ylim(ymin-1, ymax+1)
+        
+        return fig
+        
+
+        
+        
+        
+        
+        
+    

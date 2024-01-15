@@ -8,11 +8,12 @@ taken from GADM at https://gadm.org/index.html
 
 import geopandas as gpd
 import pandas as pd
-from typing import Dict
+from typing import Dict, List
 import requests
 from pathlib import Path 
 import zipfile
 import shutil
+import sys
 
 AUS_MAPPER = {
     # "AshmoreandCartierIslands":"", # non-covered island
@@ -72,6 +73,42 @@ CAN_MAPPER = {
     "Québec":"QC",
     "Saskatchewan":"SK",
     "Yukon":"NO",
+}
+
+CHN_MAPPER = {
+    "Anhui":"AN",
+    "Beijing":"BE",
+    "Chongqing":"CH",
+    "Fujian":"FU",
+    "Gansu":"GA",
+    "Guangdong":"GD",
+    "Guangxi":"GX",
+    "Guizhou":"GU",
+    "Hainan":"HA",
+    "Hebei":"HB",
+    "Heilongjiang":"HJ",
+    "Henan":"HN",
+    "HongKong":"HK",
+    "Hubei":"HU",
+    "Hunan":"HN",
+    "Jiangsu":"JS",
+    "Jiangxi":"JX",
+    "Jilin":"JI",
+    "Liaoning":"LI",
+    "Macau":"MA",
+    "NeiMongol":"NM",
+    "NingxiaHui":"NI",
+    "Qinghai":"QI",
+    "Shaanxi":"SI",
+    "Shandong":"SD",
+    "Shanghai":"SH",
+    "Shanxi":"SX",
+    "Sichuan":"SC",
+    "Tianjin":"TJ",
+    "XinjiangUygur":"ZH",
+    "Xizang":"XI",
+    "Yunnan":"YU",
+    "Zhejiang":"ZH"
 }
 
 IDN_MAPPER = {
@@ -535,7 +572,7 @@ VNM_MAPPER = {
     "YênBái":"NO",
 }
 
-def make_shapefile(geojson: str, country: str, mapper: Dict[str,str], save: str = "./") -> None:
+def make_subregions(geojson: str, country: str, mapper: Dict[str,str], save: str = None) -> gpd.GeoDataFrame:
     """Makes subregions data at a country level and saves as a shapefile
         
     Arguments: 
@@ -554,21 +591,43 @@ def make_shapefile(geojson: str, country: str, mapper: Dict[str,str], save: str 
     """
     
     gdf = gpd.read_file(geojson)
-    if country == "IND": # india's borders are tracked a little weird 
+    if (country == "IND") | (country == "CHN"): # borders are tracked a little weird 
         assert (
             (gdf.GID_0 == country) | 
             (gdf.GID_0.str.startswith("Z0"))).all()
     else: 
         assert (gdf.GID_0 == country).all()
     gdf = assign_subregions(gdf, mapper)
-    gdf.to_file(Path(save,f"{country}.shp"), driver="ESRI Shapefile")
+    if save:
+        gdf.to_file(Path(save,f"{country}.shp"), driver="ESRI Shapefile")
+    return gdf
     
 def assign_subregions(gdf: gpd.GeoDataFrame, mapper: Dict[str,str]) -> gpd.GeoDataFrame:
     """Assigns subregions to spatial data"""
     
-    gdf = gdf[["GID_0", "NAME_1", "geometry"]].rename(columns={"GID_0":"REGION"})
-    gdf["SUBREGION"] = gdf["NAME_1"].map(mapper)
-    return gdf.dissolve(by="SUBREGION").reset_index()[["REGION", "SUBREGION", "geometry"]]
+    gdf = gdf[["GID_0", "NAME_1", "geometry"]].rename(columns={"GID_0":"region"})
+    gdf["subregion"] = gdf["NAME_1"].map(mapper)
+    return gdf.dissolve(by="subregion").reset_index()[["region", "subregion", "geometry"]]
+
+def format_admin_0(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Formats admin level 0 data
+    
+    https://public.opendatasoft.com/explore/dataset/world-administrative-boundaries/export/
+    """
+
+    gdf["subregion"] = "XX"
+    return gdf[~(gdf.iso3.isna())][["iso3", "subregion", "geometry"]].rename(columns={"iso3":"region"})
+
+def get_and_extract_zipped_file(url: str, destination: str):
+    """Gets and extracts a zipped file from online resource"""
+    
+    file_name = Path(destination).stem
+    download_file(url, f"./{file_name}.zip")
+    unzip_file(f"./{file_name}.zip", f"./{file_name}")
+    shutil.move(f"./{file_name}/{file_name}.json", destination)
+    Path(file_name).rmdir()
+    Path(f"{file_name}.zip").unlink()
+    
 
 def download_file(url: str, destination: str):
     """downloads a file"""
@@ -592,10 +651,48 @@ def file_exists(file_path: str) -> bool:
 
 if __name__ == "__main__":
     
-    data = [
+    # master shapefile 
+    shp_file = Path("./","..","data","shapefiles", "world", "world.shp")
+    
+    if file_exists(shp_file):
+        print(f"Spatial representation existis at location {str(shp_file)}")
+        print("Exiting...")
+        sys.exit()
+    
+    ###
+    # Get base regional representation (admin level 0)
+    ###
+    
+    admin_0_path = Path("..","data","shapefiles", "admin_0", "admin_0.shp")
+    
+    if not file_exists(admin_0_path):
+        geojson_admin_0 = Path("..","data","geojson", "admin_0.geojson")
+        if not file_exists(geojson_admin_0):
+            
+            # gdf_admin_0 = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres")) # futures warning
+            download_file(
+                url="https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/world-administrative-boundaries/exports/geojson?lang=en&timezone=America%2FLos_Angeles",
+                destination=geojson_admin_0
+            )
+        gdf_admin_0 = format_admin_0(gpd.read_file(geojson_admin_0))
+        
+        admin_0_path.parent.mkdir(parents=True, exist_ok=True)
+        gdf_admin_0.to_file(admin_0_path)
+        
+        print("Global admin 0 data created")
+        
+    else:
+        gdf_admin_0 = gpd.read_file(admin_0_path)
+    
+    ###
+    # Add subregional representation where required (admin level 1)
+    ###
+    
+    admin_1_data = [
         ("AUS", AUS_MAPPER), # Australia
         ("BRA", BRA_MAPPER), # Brazil
         ("CAN", CAN_MAPPER), # Canada
+        ("CHN", CHN_MAPPER), # China
         ("IDN", IDN_MAPPER), # Indonesia
         ("IND", IND_MAPPER), # India
         ("JPN", JPN_MAPPER), # Japan
@@ -606,23 +703,79 @@ if __name__ == "__main__":
         ("VNM", VNM_MAPPER), # Viet Nam
     ]
     
-    for country, mapper in data:
+    admin_1_path = Path("..","data","shapefiles", "admin_1", "admin_1.shp")
+    if not file_exists(admin_1_path):
         
-        shp_file = Path("./","..","data","shapefiles",country,f"{country}.shp")
-        if file_exists(shp_file):
-            continue
+        admin_1_gdfs = []
         
-        geojson = Path("..","data","geojson",f"gadm41_{country}_1.json")
-        if not file_exists(geojson):
-            file_name = Path(geojson).name
-            url = f"https://geodata.ucdavis.edu/gadm/gadm4.1/json/{file_name}.zip"
-            download_file(url, f"./{file_name}.zip")
-            unzip_file(f"./{file_name}.zip", f"./{file_name}")
-            shutil.move(f"./{file_name}/{file_name}", geojson)
-            Path(file_name).rmdir()
-            Path(f"{file_name}.zip").unlink()
+        for country, mapper in admin_1_data:
             
-        save_dir = Path("./","..","data","shapefiles",country)
-        save_dir.mkdir(exist_ok=True)
-        make_shapefile(geojson, country, mapper, save_dir)
-        print(f"{country} shapefile created")
+            geojson = Path("..","data","geojson",f"gadm41_{country}_1.json")
+            if not file_exists(geojson):
+                get_and_extract_zipped_file(
+                    url=f"https://geodata.ucdavis.edu/gadm/gadm4.1/json/{Path(geojson).name}.zip",
+                    destination=geojson
+                )
+                
+            admin_1_gdfs.append(
+                make_subregions(geojson, country, mapper, save=None)
+            )
+            
+            print(f"{country} data created")
+            
+        gdf_admin_1 = gpd.pd.concat(admin_1_gdfs, ignore_index=True)
+        
+        admin_1_path.parent.mkdir(parents=True, exist_ok=True)
+        gdf_admin_1.to_file(admin_1_path)
+        
+    else:
+        gdf_admin_1 = gpd.read_file(admin_1_path)
+    
+    ###
+    # Add subregional for USA (balancing authorities)
+    ###
+    
+    usa_path = Path("..","data","shapefiles", "usa", "usa.shp")
+    nodes = pd.read_csv(Path("..","data","csv", "nodes.csv"))
+    
+    if not file_exists(usa_path):
+        usa_geojson = Path("..","data","geojson", "usa.geojson")
+        if not file_exists(usa_geojson):
+            download_file(
+                url="https://raw.githubusercontent.com/electricitymaps/electricitymaps-contrib/master/web/geo/world.geojson",
+                destination=usa_geojson
+            )
+        gdf_usa = gpd.read_file(usa_geojson)
+        nodes_usa = nodes[nodes.iso == "USA"]
+        
+        gdf_usa["region"] = "USA"
+        gdf_usa = gdf_usa[gdf_usa["countryKey"] == "US"]
+        gdf_usa["subregion"] = gdf_usa["zoneName"].map(nodes_usa.set_index("Node_Verbose").to_dict()["region_code"])
+        
+        # Should only drop Hawaii
+        rows_to_drop = gdf_usa[gdf_usa["subregion"].isna()]["zoneName"]
+        if not rows_to_drop.empty:
+            print(f"Dropping {rows_to_drop.to_list()} from USA dataframe")
+            gdf_usa = gdf_usa[~gdf_usa["subregion"].isna()]
+        
+        gdf_usa = gdf_usa[["region", "subregion", "geometry"]]
+        
+        usa_path.parent.mkdir(parents=True, exist_ok=True)
+        gdf_usa.to_file(usa_path)
+        print("Made USA data")
+        
+    else:
+        gdf_usa = gpd.read_file(usa_path)
+    
+    ### 
+    # Create final spatial representation
+    ###
+
+    gdf_world = gdf_admin_0[
+        ~(gdf_admin_0.region.isin([r[0] for r in admin_1_data])) &
+        ~(gdf_admin_0.region == "USA")
+    ]
+    gdf_world = gpd.pd.concat([gdf_world, gdf_admin_1, gdf_usa], ignore_index=True)
+    
+    shp_file.parent.mkdir(parents=True, exist_ok=True)
+    gdf_world.to_file(shp_file)

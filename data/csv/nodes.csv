@@ -233,70 +233,70 @@ Tanzania,TZA,XX,TZA-XX,7962000,-6.266843889,34.80959758,-6.8161,39.2803,Tanzania
 Uganda,UGA,XX,UGA-XX,1680600,1.516233214,32.33288847,0.3136,32.5811,Uganda,
 Ukraine,UKR,XX,UKR-XX,2963199,49.00834161,31.40576366,50.45,30.5233,Ukraine,
 Uruguay,URY,XX,URY-XX,1719453,-32.79622178,-56.01834601,-34.8836,-56.1819,Uruguay,
-United States,USA,AK,USA-AK,292545,61.1508,-149.1091,61.1508,-149.1091,USA - Alaska,
-United States,USA,NY,USA-NY,18972871,40.6943,-73.9249,40.6943,-73.9249,USA - NY-NYIS,Balancing Authority: New York Independent System Operator
-United States,USA,LD,USA-LD,12121244,34.1141,-118.4068,34.1141,-118.4068,USA - CAL-LDWP,Balancing Authority: Los Angeles Department of Water and Power
-United States,USA,PJ,USA-PJ,8595181,41.8375,-87.6866,41.8375,-87.6866,USA - MIDA-PJM,"Balancing Authority: PJM Interconnection, LLC"
-United States,USA,ER,USA-ER,5668165,32.7935,-96.7667,32.7935,-96.7667,USA - TEX-ERCO,"Balancing Authority: Electric Reliability Council of Texas, Inc."
-United States,USA,SO,USA-SO,5046555,33.7628,-84.422,33.7628,-84.422,USA - SE-SOCO,"Balancing Authority: Southern Company Services, Inc. - Trans"
-United States,USA,IS,USA-IS,4208580,42.3188,-71.0852,42.3188,-71.0852,USA - NE-ISNE,Balancing Authority: ISO New England
-United States,USA,SR,USA-SR,4047095,33.5722,-112.0892,33.5722,-112.0892,USA - SW-SRP,Balancing Authority: Salt River Project Agricultural Improvement and Power District
-United States,USA,MI,USA-MI,3522856,42.3834,-83.1024,42.3834,-83.1024,USA - MIDW-MISO,"Balancing Authority: Midcontinent Independent System Operator, Inc."
-United States,USA,SL,USA-SL,3438221,47.6211,-122.3244,47.6211,-122.3244,USA - NW-SCL,Balancing Authority: Seattle City Light
-United States,USA,CI,USA-CI,3290197,37.7558,-122.4449,37.7558,-122.4449,USA - CAL-CISO,Balancing Authority: California Independent System Operator
-United States,USA,TC,USA-TC,2683956,27.9945,-82.4447,27.9945,-82.4447,USA - FLA-TEC,Balancing Authority: Tampa Electric Company
-United States,USA,PO,USA-PO,2650725,39.762,-104.8758,39.762,-104.8758,USA - NW-PSCO,Balancing Authority: Public Service Company of Colorado
-United States,USA,NE,USA-NE,2150373,36.2333,-115.2654,36.2333,-115.2654,USA - NW-NEVP,Balancing Authority: Nevada Power Company
-United States,USA,PG,USA-PG,2036875,45.5371,-122.65,45.5371,-122.65,USA - NW-PGE,Balancing Authority: Portland General Electric Company
-United States,USA,FM,USA-FM,1927699,28.4773,-81.337,28.4773,-81.337,USA - FLA-FMPP,Balancing Authority: Florida Municipal Power Pool
-United States,USA,BA,USA-BA,1924167,38.5677,-121.4685,38.5677,-121.4685,USA - CAL-BANC,Balancing Authority: Balancing Authority of Northern California
-United States,USA,SW,USA-SW,1644497,39.1238,-94.5541,39.1238,-94.5541,USA - CENT-SWPP,Balancing Authority: Southwest Power Pool
-United States,USA,DU,USA-DU,1516107,35.2083,-80.8303,35.2083,-80.8303,USA - CAR-DUK,Balancing Authority: Duke Energy Carolinas
-United States,USA,JE,USA-JE,1220191,30.3322,-81.6749,30.3322,-81.6749,USA - FLA-JEA,Balancing Authority: JEA
-United States,USA,PE,USA-PE,1135344,40.7776,-111.9311,40.7776,-111.9311,USA - NW-PACE,Balancing Authority: PacifiCorp East
-United States,USA,TV,USA-TV,1098486,36.1715,-86.7842,36.1715,-86.7842,USA - TEN-TVA,Balancing Authority: Tennessee Valley Authority
-United States,USA,LG,USA-LG,1022630,38.1663,-85.6485,38.1663,-85.6485,USA - MIDW-LGEE,Balancing Authority: Louisville Gas and Electric Company and Kentucky Utilities Company
-United States,USA,TP,USA-TP,875284,32.1541,-110.8787,32.1541,-110.8787,USA - SW-TEPC,Balancing Authority: Tucson Electric Power
-United States,USA,EP,USA-EP,794344,31.8476,-106.43,31.8476,-106.43,USA - SW-EPE,Balancing Authority: El Paso Electric Company
-United States,USA,PN,USA-PN,765693,35.1054,-106.6465,35.1054,-106.6465,USA - SW-PNM,Balancing Authority: Public Service Company of New Mexico
-United States,USA,FL,USA-FL,5711945,25.784,-80.2101,25.784,-80.2101,USA - FLA-FPL,Balancing Authority: Florida Power & Light Co.
-United States,USA,AI,USA-AI,715983,36.1283,-95.9042,36.1283,-95.9042,USA - MIDW-AECI,"Balancing Authority: Associated Electric Cooperative, Inc."
-United States,USA,SG,USA-SG,685517,32.8168,-79.9687,32.8168,-79.9687,USA - CAR-SCEG,"Balancing Authority: Dominion Energy South Carolina, Inc."
-United States,USA,WM,USA-WM,628808,38.8674,-104.7605,38.8674,-104.7605,USA - NW-WACM,Balancing Authority: Western Area Power Administration - Rocky Mountain Region
-United States,USA,PW,USA-PW,463328,39.5497,-119.8483,39.5497,-119.8483,USA - NW-PACW,Balancing Authority: PacifiCorp West
-United States,USA,AA,USA-AA,440270,47.6671,-117.433,47.6671,-117.433,USA - NW-AVA,Balancing Authority: Avista Corporation
-United States,USA,IP,USA-IP,422665,43.6005,-116.2308,43.6005,-116.2308,USA - NW-IPCO,Balancing Authority: Idaho Power Company
-United States,USA,TI,USA-TI,382994,37.6375,-121.0028,37.6375,-121.0028,USA - CAL-TIDC,Balancing Authority: Turlock Irrigation District
-United States,USA,II,USA-II,361831,33.7346,-116.2346,33.7346,-116.2346,USA - CAL-IID,Balancing Authority: Imperial Irrigation District
-United States,USA,CE,USA-CE,328827,36.0714,-94.1661,36.0714,-94.1661,USA - CAR-CPLE,Balancing Authority: Duke Energy Progress East
-United States,USA,CW,USA-CW,316694,35.5707,-82.5537,35.5707,-82.5537,USA - CAR-CPLW,Balancing Authority: Duke Energy Progress West
-United States,USA,SC,USA-SC,281180,33.7094,-78.8844,33.7094,-78.8844,USA - CAR-SC,Balancing Authority: South Carolina Public Service Authority
-United States,USA,FC,USA-FC,258245,27.7931,-82.6652,27.7931,-82.6652,USA - FLA-FPC,"Balancing Authority: Duke Energy Florida, Inc."
-United States,USA,TA,USA-TA,257648,30.4551,-84.2527,30.4551,-84.2527,USA - FLA-TAL,Balancing Authority: City of Tallahassee
-United States,USA,HS,USA-HS,224362,25.8696,-80.3045,25.8696,-80.3045,USA - FLA-HST,Balancing Authority: City of Homestead
-United States,USA,PI,USA-PI,219538,47.5436,-122.7121,47.5436,-122.7121,USA - NW-PSEI,"Balancing Authority: Puget Sound Energy, Inc."
-United States,USA,TR,USA-TR,217332,47.2431,-122.4531,47.2431,-122.4531,USA - NW-TPWR,"Balancing Authority: City of Tacoma, Department of Public Utilities, Light Division"
-United States,USA,GV,USA-GV,213287,29.6804,-82.3459,29.6804,-82.3459,USA - FLA-GVL,Balancing Authority: Gainesville Regional Utilities
-United States,USA,BP,USA-BP,188331,45.6366,-122.5967,45.6366,-122.5967,USA - NW-BPAT,Balancing Authority: Bonneville Power Administration
-United States,USA,SM,USA-SM,179668,28.4798,-82.53,28.4798,-82.53,USA - FLA-SEC,Balancing Authority: Seminole Electric Cooperative
-United States,USA,AZ,USA-AZ,135933,32.5995,-114.5491,32.5995,-114.5491,USA - SW-AZPS,Balancing Authority: Arizona Public Service Company
-United States,USA,WA,USA-WA,124973,45.7891,-108.5526,45.7891,-108.5526,USA - NW-WAUW,Balancing Authority: Western Area Power Administration - Upper Great Plains West
-United States,USA,NW,USA-NW,92863,46.8751,-114.0214,46.8751,-114.0214,USA - NW-NWMT,Balancing Authority: NorthWestern Corporation
-United States,USA,CH,USA-CH,71119,47.436,-120.3295,47.436,-120.3295,USA - NW-CHPD,Balancing Authority: Public Utility District No. 1 of Chelan County
-United States,USA,WC,USA-WC,44944,31.563,-110.3153,31.563,-110.3153,USA - SW-WALC,Balancing Authority: Western Area Power Administration - Desert Southwest Region
-United States,USA,SP,USA-SP,29327,36.0555,-90.5149,36.0555,-90.5149,USA - CENT-SPA,Balancing Authority: Southwestern Power Administration
-United States,USA,GC,USA-GC,24764,47.1279,-119.2759,47.1279,-119.2759,USA - NW-GCPD,"Balancing Authority: Public Utility District No. 2 of Grant County, Washington"
-United States,USA,GD,USA-GD,19141,45.8326,-119.2854,45.8326,-119.2854,USA - NW-GRID,"Balancing Authority: Gridforce Energy Management, LLC"
-United States,USA,SA,USA-SA,14210,30.9052,-84.5732,30.9052,-84.5732,USA - SE-SEPA,Balancing Authority: Southeastern Power Administration
-United States,USA,YA,USA-YA,,35.5191,-80.0986,35.5191,-80.0986,USA - CAR-YAD,"Balancing Authority: Alcoa Power Generating, Inc. - Yadkin Division"
-United States,USA,DO,USA-DO,,48.2411,-119.6111,48.2411,-119.6111,USA - NW-DOPD,Balancing Authority: PUD No. 1 of Douglas County
-United States,USA,AN,USA-AN,,45.5415,-120.423,45.5415,-120.423,USA - NW-AVRN,"Balancing Authority: Avangrid Renewables, LLC"
-United States,USA,DE,USA-DE,,33.3417,-112.8897,33.3417,-112.8897,USA - SW-DEAA,"Balancing Authority: Arlington Valley, LLC"
-United States,USA,GF,USA-GF,,35.0533,-114.1334,35.0533,-114.1334,USA - SW-GRIF,"Balancing Authority: Griffith Energy, LLC"
-United States,USA,GL,USA-GL,,37.13889,-88.75213,37.13889,-88.75213,USA - MW-GLHB,Balancing Authority: GridLiance
-United States,USA,GW,USA-GW,,48.5078,-112.0908,48.5078,-112.0908,USA - NW-GWA,"Balancing Authority: NaturEner Power Watch, LLC"
-United States,USA,HG,USA-HG,,33.476,-113.1134,33.476,-113.1134,USA - SW-HGMA,"Balancing Authority: New Harquahala Generating Company, LLC"
-United States,USA,WW,USA-WW,,48.8361,-112.0908,48.8361,-112.0908,USA - NW-WWA,"Balancing Authority: NaturEner Wind Watch, LLC"
+United States,USA,AK,USA-AK,292545,61.1508,-149.1091,61.1508,-149.1091,US-AK,
+United States,USA,NY,USA-NY,18972871,40.6943,-73.9249,40.6943,-73.9249,US-NY-NYIS,Balancing Authority: New York Independent System Operator
+United States,USA,LD,USA-LD,12121244,34.1141,-118.4068,34.1141,-118.4068,US-CAL-LDWP,Balancing Authority: Los Angeles Department of Water and Power
+United States,USA,PJ,USA-PJ,8595181,41.8375,-87.6866,41.8375,-87.6866,US-MIDA-PJM,"Balancing Authority: PJM Interconnection, LLC"
+United States,USA,ER,USA-ER,5668165,32.7935,-96.7667,32.7935,-96.7667,US-TEX-ERCO,"Balancing Authority: Electric Reliability Council of Texas, Inc."
+United States,USA,SO,USA-SO,5046555,33.7628,-84.422,33.7628,-84.422,US-SE-SOCO,"Balancing Authority: Southern Company Services, Inc. - Trans"
+United States,USA,IS,USA-IS,4208580,42.3188,-71.0852,42.3188,-71.0852,US-NE-ISNE,Balancing Authority: ISO New England
+United States,USA,SR,USA-SR,4047095,33.5722,-112.0892,33.5722,-112.0892,US-SW-SRP,Balancing Authority: Salt River Project Agricultural Improvement and Power District
+United States,USA,MI,USA-MI,3522856,42.3834,-83.1024,42.3834,-83.1024,US-MIDW-MISO,"Balancing Authority: Midcontinent Independent System Operator, Inc."
+United States,USA,SL,USA-SL,3438221,47.6211,-122.3244,47.6211,-122.3244,US-NW-SCL,Balancing Authority: Seattle City Light
+United States,USA,CI,USA-CI,3290197,37.7558,-122.4449,37.7558,-122.4449,US-CAL-CISO,Balancing Authority: California Independent System Operator
+United States,USA,TC,USA-TC,2683956,27.9945,-82.4447,27.9945,-82.4447,US-FLA-TEC,Balancing Authority: Tampa Electric Company
+United States,USA,PO,USA-PO,2650725,39.762,-104.8758,39.762,-104.8758,US-NW-PSCO,Balancing Authority: Public Service Company of Colorado
+United States,USA,NE,USA-NE,2150373,36.2333,-115.2654,36.2333,-115.2654,US-NW-NEVP,Balancing Authority: Nevada Power Company
+United States,USA,PG,USA-PG,2036875,45.5371,-122.65,45.5371,-122.65,US-NW-PGE,Balancing Authority: Portland General Electric Company
+United States,USA,FM,USA-FM,1927699,28.4773,-81.337,28.4773,-81.337,US-FLA-FMPP,Balancing Authority: Florida Municipal Power Pool
+United States,USA,BA,USA-BA,1924167,38.5677,-121.4685,38.5677,-121.4685,US-CAL-BANC,Balancing Authority: Balancing Authority of Northern California
+United States,USA,SW,USA-SW,1644497,39.1238,-94.5541,39.1238,-94.5541,US-CENT-SWPP,Balancing Authority: Southwest Power Pool
+United States,USA,DU,USA-DU,1516107,35.2083,-80.8303,35.2083,-80.8303,US-CAR-DUK,Balancing Authority: Duke Energy Carolinas
+United States,USA,JE,USA-JE,1220191,30.3322,-81.6749,30.3322,-81.6749,US-FLA-JEA,Balancing Authority: JEA
+United States,USA,PE,USA-PE,1135344,40.7776,-111.9311,40.7776,-111.9311,US-NW-PACE,Balancing Authority: PacifiCorp East
+United States,USA,TV,USA-TV,1098486,36.1715,-86.7842,36.1715,-86.7842,US-TEN-TVA,Balancing Authority: Tennessee Valley Authority
+United States,USA,LG,USA-LG,1022630,38.1663,-85.6485,38.1663,-85.6485,US-MIDW-LGEE,Balancing Authority: Louisville Gas and Electric Company and Kentucky Utilities Company
+United States,USA,TP,USA-TP,875284,32.1541,-110.8787,32.1541,-110.8787,US-SW-TEPC,Balancing Authority: Tucson Electric Power
+United States,USA,EP,USA-EP,794344,31.8476,-106.43,31.8476,-106.43,US-SW-EPE,Balancing Authority: El Paso Electric Company
+United States,USA,PN,USA-PN,765693,35.1054,-106.6465,35.1054,-106.6465,US-SW-PNM,Balancing Authority: Public Service Company of New Mexico
+United States,USA,FL,USA-FL,5711945,25.784,-80.2101,25.784,-80.2101,US-FLA-FPL,Balancing Authority: Florida Power & Light Co.
+United States,USA,AI,USA-AI,715983,36.1283,-95.9042,36.1283,-95.9042,US-MIDW-AECI,"Balancing Authority: Associated Electric Cooperative, Inc."
+United States,USA,SG,USA-SG,685517,32.8168,-79.9687,32.8168,-79.9687,US-CAR-SCEG,"Balancing Authority: Dominion Energy South Carolina, Inc."
+United States,USA,WM,USA-WM,628808,38.8674,-104.7605,38.8674,-104.7605,US-NW-WACM,Balancing Authority: Western Area Power Administration - Rocky Mountain Region
+United States,USA,PW,USA-PW,463328,39.5497,-119.8483,39.5497,-119.8483,US-NW-PACW,Balancing Authority: PacifiCorp West
+United States,USA,AA,USA-AA,440270,47.6671,-117.433,47.6671,-117.433,US-NW-AVA,Balancing Authority: Avista Corporation
+United States,USA,IP,USA-IP,422665,43.6005,-116.2308,43.6005,-116.2308,US-NW-IPCO,Balancing Authority: Idaho Power Company
+United States,USA,TI,USA-TI,382994,37.6375,-121.0028,37.6375,-121.0028,US-CAL-TIDC,Balancing Authority: Turlock Irrigation District
+United States,USA,II,USA-II,361831,33.7346,-116.2346,33.7346,-116.2346,US-CAL-IID,Balancing Authority: Imperial Irrigation District
+United States,USA,CE,USA-CE,328827,36.0714,-94.1661,36.0714,-94.1661,US-CAR-CPLE,Balancing Authority: Duke Energy Progress East
+United States,USA,CW,USA-CW,316694,35.5707,-82.5537,35.5707,-82.5537,US-CAR-CPLW,Balancing Authority: Duke Energy Progress West
+United States,USA,SC,USA-SC,281180,33.7094,-78.8844,33.7094,-78.8844,US-CAR-SC,Balancing Authority: South Carolina Public Service Authority
+United States,USA,FC,USA-FC,258245,27.7931,-82.6652,27.7931,-82.6652,US-FLA-FPC,"Balancing Authority: Duke Energy Florida, Inc."
+United States,USA,TA,USA-TA,257648,30.4551,-84.2527,30.4551,-84.2527,US-FLA-TAL,Balancing Authority: City of Tallahassee
+United States,USA,HS,USA-HS,224362,25.8696,-80.3045,25.8696,-80.3045,US-FLA-HST,Balancing Authority: City of Homestead
+United States,USA,PI,USA-PI,219538,47.5436,-122.7121,47.5436,-122.7121,US-NW-PSEI,"Balancing Authority: Puget Sound Energy, Inc."
+United States,USA,TR,USA-TR,217332,47.2431,-122.4531,47.2431,-122.4531,US-NW-TPWR,"Balancing Authority: City of Tacoma, Department of Public Utilities, Light Division"
+United States,USA,GV,USA-GV,213287,29.6804,-82.3459,29.6804,-82.3459,US-FLA-GVL,Balancing Authority: Gainesville Regional Utilities
+United States,USA,BP,USA-BP,188331,45.6366,-122.5967,45.6366,-122.5967,US-NW-BPAT,Balancing Authority: Bonneville Power Administration
+United States,USA,SM,USA-SM,179668,28.4798,-82.53,28.4798,-82.53,US-FLA-SEC,Balancing Authority: Seminole Electric Cooperative
+United States,USA,AZ,USA-AZ,135933,32.5995,-114.5491,32.5995,-114.5491,US-SW-AZPS,Balancing Authority: Arizona Public Service Company
+United States,USA,WA,USA-WA,124973,45.7891,-108.5526,45.7891,-108.5526,US-NW-WAUW,Balancing Authority: Western Area Power Administration - Upper Great Plains West
+United States,USA,NW,USA-NW,92863,46.8751,-114.0214,46.8751,-114.0214,US-NW-NWMT,Balancing Authority: NorthWestern Corporation
+United States,USA,CH,USA-CH,71119,47.436,-120.3295,47.436,-120.3295,US-NW-CHPD,Balancing Authority: Public Utility District No. 1 of Chelan County
+United States,USA,WC,USA-WC,44944,31.563,-110.3153,31.563,-110.3153,US-SW-WALC,Balancing Authority: Western Area Power Administration - Desert Southwest Region
+United States,USA,SP,USA-SP,29327,36.0555,-90.5149,36.0555,-90.5149,US-CENT-SPA,Balancing Authority: Southwestern Power Administration
+United States,USA,GC,USA-GC,24764,47.1279,-119.2759,47.1279,-119.2759,US-NW-GCPD,"Balancing Authority: Public Utility District No. 2 of Grant County, Washington"
+United States,USA,GD,USA-GD,19141,45.8326,-119.2854,45.8326,-119.2854,US-NW-GRID,"Balancing Authority: Gridforce Energy Management, LLC"
+United States,USA,SA,USA-SA,14210,30.9052,-84.5732,30.9052,-84.5732,US-SE-SEPA,Balancing Authority: Southeastern Power Administration
+United States,USA,YA,USA-YA,,35.5191,-80.0986,35.5191,-80.0986,US-CAR-YAD,"Balancing Authority: Alcoa Power Generating, Inc. - Yadkin Division"
+United States,USA,DO,USA-DO,,48.2411,-119.6111,48.2411,-119.6111,US-NW-DOPD,Balancing Authority: PUD No. 1 of Douglas County
+United States,USA,AN,USA-AN,,45.5415,-120.423,45.5415,-120.423,US-NW-AVRN,"Balancing Authority: Avangrid Renewables, LLC"
+United States,USA,DE,USA-DE,,33.3417,-112.8897,33.3417,-112.8897,US-SW-DEAA,"Balancing Authority: Arlington Valley, LLC"
+United States,USA,GF,USA-GF,,35.0533,-114.1334,35.0533,-114.1334,US-SW-GRIF,"Balancing Authority: Griffith Energy, LLC"
+United States,USA,GL,USA-GL,,37.13889,-88.75213,37.13889,-88.75213,US-MW-GLHB,Balancing Authority: GridLiance
+United States,USA,GW,USA-GW,,48.5078,-112.0908,48.5078,-112.0908,US-NW-GWA,"Balancing Authority: NaturEner Power Watch, LLC"
+United States,USA,HG,USA-HG,,33.476,-113.1134,33.476,-113.1134,US-SW-HGMA,"Balancing Authority: New Harquahala Generating Company, LLC"
+United States,USA,WW,USA-WW,,48.8361,-112.0908,48.8361,-112.0908,US-NW-WWA,"Balancing Authority: NaturEner Wind Watch, LLC"
 Uzbekistan,UZB,XX,UZB-XX,2571668,41.75204379,63.16537477,41.3111,69.2797,Uzbekistan,
 Venezuela,VEN,XX,VEN-XX,2245744,7.127130493,-66.15124644,10.4806,-66.9036,Venezuela ,
 Viet Nam,VNM,CE,VNM-CE,1000000,15.16043104,107.3954149,15.9333,108.2667,Viet Nam,
