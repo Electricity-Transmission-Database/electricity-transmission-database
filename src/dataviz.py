@@ -162,6 +162,7 @@ class DatabasePlots:
                 hoverinfo = 'text',
                 text = nodes['node'] + '<br>' + nodes['country'],
                 mode = 'markers',
+                showlegend = False,
                 marker = dict(
                     opacity = kwargs.get('node_opacity',0.8),
                     size = kwargs.get('node_size',7),
