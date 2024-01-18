@@ -426,6 +426,7 @@ RUS_MAPPER = {
     "Zabaykal'ye":"SI",
 }
 
+# thailand is currently treated as a single node   
 THA_MAPPER = {
     "AmnatCharoen":"NO",
     "AngThong":"CE",
@@ -699,7 +700,7 @@ if __name__ == "__main__":
         ("MYS", MYS_MAPPER), # Malaysia
         ("PHL", PHL_MAPPER), # Philippines
         ("RUS", RUS_MAPPER), # Russia
-        ("THA", THA_MAPPER), # Thailand
+        # ("THA", THA_MAPPER), # Thailand
         ("VNM", VNM_MAPPER), # Viet Nam
     ]
     
