@@ -302,22 +302,27 @@ class DatabasePlots:
     def network_topology(
             self,
             by='subregion',
-            jitter=1,
             colours = {'planned' : 'lightblue', 'existing' : 'orange'},
-            font_size=5,
             font_color='white',
             node_size=700,
-            figsize=(8,8),
-            legend_scale=1,
+            figsize = (10,5),
     ):
         '''Network topology
         '''
-        df = self.df.get_interregional_capacity(by=by).copy()
+        df = self.df.get_interregional_capacity(by=by).reset_index().copy()
 
-        df = df.reset_index()
+        # rename columns
+        renaming = {
+            'Northern' : 'North',
+            'Eastern' : 'East',
+            'South-eastern' : 'Southeast',
+            'Southern' : 'South',
+            'Western' : 'West',
+        }
 
-        # Generate dict to map positions
-        pos_df = self.df.CENTRE_POINTS.groupby(by=by).first().geometry.to_dict()
+        for k in renaming.keys():
+            df['from'] = df['from'].str.replace(k, renaming[k])
+            df['to'] = df['to'].str.replace(k, renaming[k])
 
         # change from/to for labels
         df['from'] = df['from'].str.replace(' ','\n')
@@ -328,64 +333,79 @@ class DatabasePlots:
         df['target'] = df['to']
 
         # add existing to planned
-        df['planned'] = df['existing'] + df['planned']
+        #df['planned'] = df['existing'] + df['planned']
+
+        # sort
+        df = df.sort_values(by='target')
+
+        # categorise edges
+        bins = [0,0.0001,1,5,10,15]
+        labels = ['0','0-1','1-5','5-10','10-15']
+        widths = [0,1,4,6,10]
+
+        # bin capacities
+        def bin_capacities(df,series):
+
+            df[f'{series}_bin'] = pd.cut(
+                df[series].divide(1e3), 
+                bins=bins, 
+                labels=labels,
+                right=False,
+            )
+
+            for i, bin in enumerate(labels):
+                df.loc[ df[f'{series}_bin'] == bin, f'{series}_width' ] = widths[i]
+            
+            return df
+
+        df = bin_capacities(df,series='existing')
+        df = bin_capacities(df,series='planned')
+
 
         G = nx.from_pandas_edgelist(
             df,
-            edge_attr=["existing", "planned"],
+            edge_attr=["existing_width", "planned_width"],
             create_using=nx.MultiGraph(),
         )
 
-        # add positions
-        pos = nx.spring_layout(G, seed=7, k=jitter/math.sqrt(G.order()))
+        # init figure
+        fig, ax = plt.subplots(
+            nrows=1,
+            ncols=2,
+            figsize=figsize,
+        ) 
 
-        # try:
-        #     for n in G.nodes(): 
-        #         coords = pos_df[n.replace('\n',' ')].coords[0]
-
-        #         if n == 'Northern\nEurope':
-        #             coords = (coords[0]*0.8, coords[1]*1.5)
-        #         elif n == 'Western\nEurope':
-        #             coords = (coords[0]*-0.8, coords[1])
-        #         elif n == 'Eastern\nEurope':
-        #             coords = (coords[0]*1.4, coords[1]*1.4)
-        #         elif n == 'Central\nAsia':
-        #             coords = (coords[0], coords[1]*1.4)
-        #         elif n == 'Southern\nAsia':
-        #             coords = (coords[0]*1.3, coords[1])
-            
-        #     pos[n] = coords
-
-        # except:
-        #     print('could not configure coords')
-
+        # positions
+        pos = nx.circular_layout(G)
         nx.set_node_attributes(G, pos, 'pos')
 
-        # init figure
-        fig = plt.figure(figsize=figsize) 
-
         # nodes
-        nx.draw_networkx_nodes(
-            G, 
-            pos, 
-            node_size=node_size,
-            node_color='teal',
-            alpha=1,
-        )
+        for i in [0,1]:
 
-        # edges (planned)
-        edgewidth = [ d['planned']/2e3 for (u,v,d) in G.edges(data=True)]
+            # draw nodes
+            nx.draw_networkx_nodes(
+                G, 
+                pos, 
+                node_size=node_size,
+                node_color='teal',
+                alpha=1,
+                ax=ax[i],
+            )
 
-        nx.draw_networkx_edges(
-            G, 
-            pos, 
-            width=edgewidth,
-            edge_color=colours['planned'],
-            alpha=1,
-        )
+            # node labels
+            nodelist = G.nodes()
+
+            nx.draw_networkx_labels(
+                G, 
+                pos,
+                labels=dict(zip(nodelist,nodelist)),
+                font_color=font_color,
+                font_size=6,
+                ax=ax[i],
+            )
 
         # edges (existing)
-        edgewidth = [ d['existing']/2e3 for (u,v,d) in G.edges(data=True)]
+        edgewidth = [ d['existing_width'] for (u,v,d) in G.edges(data=True)]
 
         nx.draw_networkx_edges(
             G, 
@@ -393,31 +413,67 @@ class DatabasePlots:
             width=edgewidth,
             edge_color=colours['existing'],
             alpha=1,
+            ax=ax[0],
         )
 
-        # node labels
-        nodelist = G.nodes()
-        nx.draw_networkx_labels(
+        # edges (planned)
+        edgewidth = [ d['planned_width'] for (u,v,d) in G.edges(data=True)]
+
+        nx.draw_networkx_edges(
             G, 
-            pos,
-            labels=dict(zip(nodelist,nodelist)),
-            font_color=font_color,
-            font_size=font_size,
+            pos, 
+            width=edgewidth,
+            edge_color=colours['planned'],
+            alpha=1,
+            ax=ax[1],
+        )
+
+        # formatting
+        ax[0].set_title(
+            'a)',
+            fontsize=14,
+            fontweight='bold',
+            loc='left',
+        )
+
+        ax[1].set_title(
+            'b)',
+            fontsize=14,
+            fontweight='bold',
+            loc='left',
         )
 
         # legend
-        legend_elements = [
-            Line2D([0], [0], marker='o', color='w', label=by.title(),markerfacecolor='teal', markersize=5),
-            Line2D([0], [0], color=colours['existing'], lw=2, label='Existing capacity (MW)'),   
-            Line2D([0], [0], color=colours['planned'], lw=2, label='Planned capacity (MW)'),     
-        ]
-        plt.legend(handles=legend_elements, loc='upper right', prop={'size': 8*legend_scale}, frameon=False)
+        legend_elements = []
 
-        # frame
-        plt.box(False)
+        legend_labels = {}
+        for i, w in enumerate(widths):
+            legend_labels[w] = labels[i]
+
+        for i, width in enumerate(widths):
+            legend_elements.append(
+                Line2D(
+                    [0], 
+                    [0], 
+                    color='darkgray', 
+                    lw=width, 
+                    label=f'{legend_labels[width]} GW')
+            )
+
+        plt.legend(
+            handles=legend_elements, 
+            loc='center', 
+            prop={
+                'size': 10
+            }, 
+            frameon=True,
+            ncol=10,
+            bbox_to_anchor=(0, -0.1),
+        )
 
         return plt
     
+
     def spatial_representation(
             self,
             by="region",
