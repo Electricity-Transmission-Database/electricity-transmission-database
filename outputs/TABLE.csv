@@ -1,0 +1,38 @@
+from,to,existing,planned
+South Asia,Central Asia,1580.0,2800.0
+East Asia,Central Asia,0.0,0.0
+South Asia,East Asia,0.0,0.0
+North Europe,East Europe,0.0,1500.0
+South Europe,East Europe,1700.0,0.0
+West Asia,East Europe,950.0,1000.0
+East Asia,East Europe,1295.0,0.0
+Central Asia,East Europe,350.0,0.0
+West Europe,East Europe,2700.0,2900.0
+Southeast Asia,Melanesia,0.0,0.0
+Australia and New Zealand,Melanesia,0.0,0.0
+West Asia,North Africa,0.0,2000.0
+Sub-Saharan Africa,North Africa,4000.0,150.0
+South Europe,North Africa,1400.0,4850.0
+Latin America and the Caribbean,North America,1540.0,300.0
+East Europe,North Europe,1601.0,0.0
+North America,North Europe,0.0,0.0
+West Europe,North Europe,10415.0,14575.0
+East Asia,South Asia,0.0,0.0
+West Asia,South Asia,1020.0,850.0
+West Asia,South Europe,0.0,2000.0
+West Europe,South Europe,8210.0,3940.0
+North Africa,South Europe,2000.0,6000.0
+East Europe,South Europe,3350.0,6160.0
+South Asia,Southeast Asia,3.0,0.0
+East Asia,Southeast Asia,1158.0,1000.0
+Australia and New Zealand,Southeast Asia,0.0,0.0
+North Africa,Sub-Saharan Africa,32.0,0.0
+South Asia,West Asia,1990.0,0.0
+North Africa,West Asia,300.0,3000.0
+South Europe,West Asia,660.0,600.0
+Sub-Saharan Africa,West Asia,0.0,0.0
+East Europe,West Asia,900.0,1100.0
+South Europe,West Europe,2800.0,5200.0
+East Europe,West Europe,1600.0,1650.0
+North Africa,West Europe,0.0,0.0
+North Europe,West Europe,1700.0,2000.0
