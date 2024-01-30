@@ -468,7 +468,7 @@ class DatabasePlots:
             }, 
             frameon=True,
             ncol=10,
-            bbox_to_anchor=(0, -0.1),
+            bbox_to_anchor=(-0.05, -0.05),
         )
 
         return plt
