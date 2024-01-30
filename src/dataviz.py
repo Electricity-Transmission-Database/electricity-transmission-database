@@ -476,104 +476,91 @@ class DatabasePlots:
 
     def spatial_representation(
             self,
-            by="region",
-            area="world",
-            excluded_regions=True,
-            figsize=(8,8),
+            show_excluded_regions=False,
+            showgrid=False,
+            colours = {
+                'National' : 'oldlace', 
+                'Subnational' : 'sandybrown'
+            },
+            **kwargs,
     ):
         
-        def fix_geometry(polygon, cutoff):
-            if polygon.exterior.xy[0][0] < cutoff:
-                return affinity.translate(polygon, xoff=360, yoff=0)
-            else:
-                return polygon
-        
-        try:
-            assert by in ["region", "subregion"]
-        except AssertionError as e:
-            print(f"keyword 'by' must be in ('region', 'subregion'). Recieved {by}")
-            return 
-        
-        try:
-            valid = list(self.df.GEOMETRY[f"iso_{by}"].unique())
-            valid.append("world")
-            assert area in valid
-        except AssertionError as e:
-            print(f"keyword 'area' must be in {valid}. Recieved {area}")
-            return 
-        
-        data = self.df.GEOMETRY.copy()
-        
-        # fix one russia region that gets split at 180/-180 latitude
-        rus_fe = [fix_geometry(x, -160) for x in self.df.GEOMETRY.loc["RUS-FE"].geometry.geoms]
-        rus_fe_shape = MultiPolygon(rus_fe)
-        data.at["RUS-FE", "geometry"] = rus_fe_shape
-                
-        if not area=="world":
-            data = data[data[f"iso_{by}"]==area]
-        
-        # extract out excluded regions
-        iso_excluded_regions = self.df.INCLUDED_REGIONS[self.df.INCLUDED_REGIONS.Included == "False"]["alpha-3"]
-        data_included = data[~data.REGION.isin(iso_excluded_regions)].copy()
-        data_excluded = data[data.REGION.isin(iso_excluded_regions)].copy()
-        
-        # https://matplotlib.org/stable/gallery/color/named_colors.html
-        cmap = [
-            "lightcoral",
-            "firebrick",
-            "tomato",
-            "chocolate",
-            "sandybrown",
-            "darkorange",
-            "goldenrod",
-            "gold",
-            "darkkhaki",
-            "olivedrab",
-            "yellowgreen",
-            "chartreuse",
-            "darkseagreen",
-            "lightgreen",
-            "forestgreen",
-            "mediumseagreen",
-            "mediumaquamarine",
-            "turquoise",
-            "teal",
-            "darkturquoise",
-            "deepskyblue",
-            "steelblue",
-            "dodgerblue",
-            "slategrey",
-            "royalblue",
-            "slateblue",
-            "blueviolet",
-            "mediumorchid",
-            "fuchsia",
-            "deeppink",
-            "crimson"
-        ]
+        # get iso codes of included regions
+        included_regions_iso = self.df.INCLUDED_REGIONS[self.df.INCLUDED_REGIONS.Included == "True"]["alpha-3"].tolist()
 
-        data_included = data_included.reset_index()
-        data_included["color"] = (data_included.index % len(cmap)) + 1
-        
-        fig, ax = plt.subplots(figsize=figsize)
-        
-        data_included.plot(
-            column="color",
-            cmap=ListedColormap(cmap),
-            categorical=True,
-            ax=ax
+        # get geom data
+        geom_df = self.df.GEOMETRY.copy()
+
+        # remove excluded regions
+        if not show_excluded_regions:
+            geom_df = geom_df.loc[ geom_df.REGION.isin(included_regions_iso) ]
+
+        # add spatial scale
+        geom_df.loc[ geom_df.SUBREGION == 'XX', 'Spatial Scale' ] = 'National'
+        geom_df.loc[ geom_df.SUBREGION != 'XX', 'Spatial Scale' ] = 'Subnational'
+
+        # make fig
+        fig = px.choropleth(
+            geom_df,
+            geojson=geom_df.geometry,
+            locations=geom_df.index,
+            color="Spatial Scale", 
+            hover_name="REGION",
+            color_discrete_map=colours,
+            hover_data=['iso_region'],
         )
-        
-        if excluded_regions:
-            data_excluded.plot(
-                color="black",
-                ax=ax
-            )
-        ax.axis("off")
-        
-        xmin, ymin, xmax, ymax = data.total_bounds
-        ax.set_xlim(xmin-1, xmax+1)
-        ax.set_ylim(ymin-1, ymax+1)
+
+        # update traces
+        fig.update_traces(
+            marker_line_color='lightgray',
+            marker_line_width=0.5,
+        )
+
+        # update geos
+        fig.update_layout(
+            title=kwargs.get('title',None),
+            template='ggplot2',
+            geo = dict(
+                landcolor = None,
+                projection_type=self.default_projection_type,
+                # subunitcolor = "rgb(255, 255, 255)",
+                # countrycolor = "rgb(255, 255, 255)",
+                lakecolor = "rgb(255, 255, 255)",
+                showland = False,
+                showlakes = False,
+                showsubunits = False,
+                showcountries = False,
+                showcoastlines = False,
+                showrivers = False,
+                showocean = False,
+                oceancolor = 'white',
+                resolution = 110,
+                lonaxis = dict(
+                    showgrid = showgrid,
+                    gridwidth = 0.5,
+                    dtick = 15
+                ),
+                lataxis = dict (
+                    showgrid = showgrid,
+                    gridwidth = 0.5,
+                    dtick = 15
+                )
+                ),
+            width=1000,
+            height=500,
+            margin={"r":50,"t":50,"l":50,"b":50},
+            #paper_bgcolor="White",
+            showlegend=True,
+            #legend_title=kwargs.get('legend_title','Key:'),
+        )
+
+        # set layout
+        fig.update_layout(
+            height=self.default_map_height, 
+            width=self.default_map_width, 
+            margin=self.default_map_margins,
+            legend_title_text=None,
+        )
         
         return fig
         
