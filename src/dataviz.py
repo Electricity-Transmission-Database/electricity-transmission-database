@@ -471,7 +471,7 @@ class DatabasePlots:
             bbox_to_anchor=(-0.05, -0.05),
         )
 
-        return plt
+        return plt, df
     
 
     def spatial_representation(
